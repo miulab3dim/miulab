@@ -404,6 +404,11 @@ section.topo-do-site .flex{
   border-radius: 10px;
   transition: 0.2s;
   cursor: pointer;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .product-btn:hover{
@@ -1108,6 +1113,7 @@ body{
     scroll-snap-align: start;
   }
 }
+
 
 
 
