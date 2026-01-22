@@ -64,6 +64,22 @@ window.addEventListener("resize", renderDots);
 
 renderDots();
 
+  // ========= WHATSAPP =========
+  document.querySelectorAll(".whatsapp-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const card = btn.closest(".product-card");
+      if (!card) return;
+
+      const name = card.dataset.name || "Product";
+      const price = card.dataset.price || "";
+
+      const message = `Olá! Eu quero solicitar: ${name} ${price ? "(" + price + ")" : ""}. Poderia me passar mais informações sobre entrega, cores e disponibilidades?`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+      window.open(url, "_blank");
+    });
 
 // ========= APLICAR SÓ EM TELAS MAIORES QUE 950PX =========
 if(window.innerWidth >= 950){
@@ -99,23 +115,7 @@ if(window.innerWidth >= 950){
   });
 
   });
-
-  // ========= WHATSAPP =========
-  document.querySelectorAll(".whatsapp-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      const card = btn.closest(".product-card");
-      if (!card) return;
-
-      const name = card.dataset.name || "Product";
-      const price = card.dataset.price || "";
-
-      const message = `Olá! Eu quero solicitar: ${name} ${price ? "(" + price + ")" : ""}. Poderia me passar mais informações sobre entrega, cores e disponibilidades?`;
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-      window.open(url, "_blank");
-    });
 }
 
 // ========= FIM DO SCRIPT =========
+
