@@ -98,6 +98,8 @@ if(window.innerWidth >= 950){
     track.scrollLeft = scrollLeft - walk;
   });
 
+  });
+
   // ========= WHATSAPP =========
   document.querySelectorAll(".whatsapp-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -114,6 +116,6 @@ if(window.innerWidth >= 950){
 
       window.open(url, "_blank");
     });
-  });
 }
+
 // ========= FIM DO SCRIPT =========
