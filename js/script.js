@@ -1,14 +1,13 @@
 // ========= CONFIG WHATSAPP =========
 const WHATSAPP_NUMBER = "+5532998406067";
 
-// ========= ELEMENTOS =========
 const track = document.getElementById("carouselTrack");
 const dotsWrap = document.getElementById("carouselDots");
 
+// ========= DOTS =========
 function getStep() {
   const firstCard = track.querySelector(".product-card");
   if (!firstCard) return 0;
-
   const gap = 28;
   return firstCard.offsetWidth + gap;
 }
@@ -17,11 +16,9 @@ function getTotalPages() {
   const step = getStep();
   if (!step) return 0;
 
-  // quantos "cliques" existem dentro do scroll
   const total = Math.round(track.scrollWidth / step);
   const visible = Math.round(track.clientWidth / step);
 
-  // páginas = total de cards possíveis - quantos aparecem ao mesmo tempo + 1
   return Math.max(1, total - visible + 1);
 }
 
@@ -53,10 +50,7 @@ function renderDots() {
 function updateDots() {
   const active = getActivePage();
   const dots = dotsWrap.querySelectorAll("button");
-
-  dots.forEach((dot, i) => {
-    dot.classList.toggle("active", i === active);
-  });
+  dots.forEach((dot, i) => dot.classList.toggle("active", i === active));
 }
 
 track.addEventListener("scroll", () => requestAnimationFrame(updateDots));
@@ -64,27 +58,28 @@ window.addEventListener("resize", renderDots);
 
 renderDots();
 
-  // ========= WHATSAPP =========
-  document.querySelectorAll(".whatsapp-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
 
-      const card = btn.closest(".product-card");
-      if (!card) return;
+// ✅ ========= WHATSAPP (FORA DO IF) =========
+document.querySelectorAll(".whatsapp-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-      const name = card.dataset.name || "Product";
-      const price = card.dataset.price || "";
+    const card = btn.closest(".product-card");
+    if (!card) return;
 
-      const message = `Olá! Eu quero solicitar: ${name} ${price ? "(" + price + ")" : ""}. Poderia me passar mais informações sobre entrega, cores e disponibilidades?`;
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    const name = card.dataset.name || "Produto";
+    const price = card.dataset.price || "";
 
-      window.open(url, "_blank");
-    });
+    const message = `Olá! Eu quero solicitar: ${name} ${price ? "(" + price + ")" : ""}. Poderia me passar mais informações sobre entrega, cores e disponibilidades?`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-// ========= APLICAR SÓ EM TELAS MAIORES QUE 950PX =========
-if(window.innerWidth >= 950){
+    window.open(url, "_blank");
+  });
+});
 
-  // ========= DRAG (arrastar) =========
+
+// ✅ ========= DRAG SOMENTE NO PC =========
+if (window.innerWidth >= 950) {
   let isDown = false;
   let startX = 0;
   let scrollLeft = 0;
@@ -113,9 +108,4 @@ if(window.innerWidth >= 950){
     const walk = (x - startX) * 1.5;
     track.scrollLeft = scrollLeft - walk;
   });
-
-  });
 }
-
-// ========= FIM DO SCRIPT =========
-
