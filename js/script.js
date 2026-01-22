@@ -61,9 +61,7 @@ renderDots();
 
 // ✅ ========= WHATSAPP (FORA DO IF) =========
 document.querySelectorAll(".whatsapp-btn").forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-
+  btn.addEventListener("click", () => {
     const card = btn.closest(".product-card");
     if (!card) return;
 
@@ -73,10 +71,10 @@ document.querySelectorAll(".whatsapp-btn").forEach((btn) => {
     const message = `Olá! Eu quero solicitar: ${name} ${price ? "(" + price + ")" : ""}. Poderia me passar mais informações sobre entrega, cores e disponibilidades?`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-    window.open(url, "_blank");
+    // ✅ melhor compatibilidade mobile:
+    window.location.href = url;
   });
 });
-
 
 // ✅ ========= DRAG SOMENTE NO PC =========
 if (window.innerWidth >= 950) {
@@ -109,3 +107,4 @@ if (window.innerWidth >= 950) {
     track.scrollLeft = scrollLeft - walk;
   });
 }
+
