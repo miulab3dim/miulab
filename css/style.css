@@ -785,3 +785,248 @@ section.topo-do-site .flex{
   font-size: 13px;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* ===== FIXES IMPORTANTES ===== */
+*{
+  box-sizing: border-box; /* corrigido */
+}
+
+section{
+  padding: 80px 4%; /* corrigido (antes tava errado) */
+}
+
+/* evita cortar conteúdo */
+main{
+  max-height: none;
+}
+
+/* ===== HEADER RESPONSIVO ===== */
+@media (max-width: 900px){
+  header{
+    padding: 10px 4%;
+  }
+
+  header img{
+    max-width: 70px;
+  }
+
+  .brand-text h1{
+    font-size: 22px;
+  }
+
+  .brand-text p{
+    font-size: 14px;
+    margin-bottom: 0;
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 520px){
+  header > .interface{
+    gap: 12px;
+  }
+
+  .brand-text h1{
+    font-size: 18px;
+  }
+
+  .brand-text p{
+    font-size: 12px;
+  }
+}
+
+/* ===== TOPO DO SITE RESPONSIVO ===== */
+@media (max-width: 900px){
+  section.topo-do-site{
+    padding: 100px 4% 40px; /* espaço pro header fixo */
+  }
+
+  .topo-do-site h1{
+    font-size: 30px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+
+  .welcome-card{
+    padding: 18px;
+  }
+
+  .topo-do-site p{
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .scroll i{
+    font-size: 52px;
+  }
+}
+
+@media (max-width: 520px){
+  .topo-do-site img{
+    max-height: 220px;
+  }
+
+  .topo-do-site h1{
+    font-size: 24px;
+  }
+}
+
+/* ===== COMO TRABALHAMOS RESPONSIVO ===== */
+@media (max-width: 1100px){
+  .how-grid{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+  }
+}
+
+@media (max-width: 700px){
+  .how-title{
+    font-size: 32px;
+    margin-bottom: 35px;
+  }
+
+  .how-grid{
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .how-card p{
+    max-width: 100%;
+  }
+}
+
+/* ===== CAROUSEL (MOSTRAR 4 DE UMA VEZ) ===== */
+.carousel{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.carousel-track{
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 5px 25px;
+  scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar{
+  display: none;
+}
+
+/* DESKTOP: 4 visíveis */
+.product-card{
+  flex: 0 0 calc((100% - (28px * 3)) / 4);
+  height: 600px;
+  min-width: 240px;
+}
+
+/* NOTEBOOK: 3 visíveis */
+@media (max-width: 1100px){
+  .product-card{
+    flex: 0 0 calc((100% - (28px * 2)) / 3);
+  }
+}
+
+/* TABLET: 2 visíveis */
+@media (max-width: 820px){
+  .product-card{
+    flex: 0 0 calc((100% - 28px) / 2);
+  }
+}
+
+/* CELULAR: 1 visível */
+@media (max-width: 520px){
+  .product-card{
+    flex: 0 0 85%;
+  }
+
+  .products-title{
+    font-size: 32px;
+  }
+}
+
+/* ===== PAGAMENTOS RESPONSIVO ===== */
+@media (max-width: 900px){
+  .pagamentos{
+    padding: 70px 4%;
+  }
+
+  .pagamentos-cards{
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .pag-card{
+    text-align: center;
+  }
+}
+
+@media (max-width: 520px){
+  .pagamentos-subtitle{
+    font-size: 14px;
+  }
+
+  .pag-card{
+    padding: 20px;
+  }
+}
+
+/* ===== SHIPPING RESPONSIVO ===== */
+@media (max-width: 1000px){
+  .shipping-grid{
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .shipping-title{
+    font-size: 34px;
+    margin-bottom: 30px;
+  }
+
+  .ship-card{
+    text-align: center;
+  }
+
+  .ship-list{
+    align-items: flex-start;
+  }
+}
+
+/* ===== CONTATO RESPONSIVO ===== */
+@media (max-width: 900px){
+  .contact-grid{
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .contact-title{
+    font-size: 34px;
+    margin-bottom: 30px;
+  }
+
+  .contact-card{
+    text-align: center;
+  }
+
+  .contact-item{
+    justify-content: center;
+  }
+}
+
+/* ===== FOOTER RESPONSIVO ===== */
+@media (max-width: 520px){
+  .footer{
+    padding: 40px 4%;
+  }
+
+  .footer-copy{
+    font-size: 13px;
+  }
+
+  .footer-tagline{
+    font-size: 12px;
+  }
+}
+
