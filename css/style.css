@@ -8,6 +8,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+html {
+scroll-behavior: smooth;
+}
+
 :root{
     --blue: #17283a;
     --blue2: #249bd4;
@@ -112,6 +116,24 @@ header img{
     max-width: 90px;
     overflow: hidden;
     height: auto;
+}
+
+
+.header-right {
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+}
+
+.menu {
+margin-top: 8px;
+}
+
+.menu a {
+margin-left: 15px;
+text-decoration: none;
+color: #1b2a3a;
+font-weight: 500;
 }
 
 /* textos do lado */
