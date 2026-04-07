@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="Miu Lab 3D: portf&oacute;lio de projetos em impress&atilde;o 3D, personaliza&ccedil;&atilde;o sob medida, atendimento r&aacute;pido e envio para todo o Brasil."
+    >
+    <meta name="theme-color" content="#172A3B">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
+    <script src="./js/portfolio.js" defer></script>
+    <script src="./js/script.js" defer></script>
+    <title>Miu Lab 3D | Portf&oacute;lio e personaliza&ccedil;&atilde;o em impress&atilde;o 3D</title>
+  </head>
+  <body>
+    <a
+      class="floating-whatsapp"
+      href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20falar%20com%20a%20Miu%20Lab%203D%20sobre%20um%20pedido."
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Falar no WhatsApp"
+    >
+      <i class="bi bi-whatsapp"></i>
+      <span>Falar no WhatsApp</span>
+    </a>
+
+    <header class="site-header" id="topo">
+      <div class="interface">
+        <a class="brand" href="#inicio" aria-label="Miu Lab 3D">
+          <img src="images/logo.png" alt="Logo da Miu Lab 3D">
+          <div class="brand-copy">
+            <strong>Miu Lab 3D</strong>
+            <span>Transformando filamento em desejo &#10024;</span>
+          </div>
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Abrir menu"
+        >
+          <i class="bi bi-list"></i>
+        </button>
+
+        <nav class="site-nav" id="site-nav" aria-label="Navega&ccedil;&atilde;o principal">
+          <a href="#portfolio">Portf&oacute;lio</a>
+          <a href="#personalizacao">Personaliza&ccedil;&atilde;o</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#contato">Contato</a>
+          <a
+            class="button button--primary header-cta"
+            href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20solicitar%20um%20or%C3%A7amento%20na%20Miu%20Lab%203D."
+            target="_blank"
+            rel="noreferrer"
+          >
+            Solicitar or&ccedil;amento
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="interface">
+          <div class="hero-panel">
+            <p class="eyebrow">Portf&oacute;lio de projetos + personaliza&ccedil;&atilde;o sob medida</p>
+            <h1>Impress&atilde;o 3D com acabamento profissional para transformar refer&ecirc;ncias em pe&ccedil;as &uacute;nicas.</h1>
+            <p class="hero-text">
+              Veja projetos j&aacute; produzidos pela Miu Lab 3D e fale direto para criar algo parecido
+              ou desenvolver um pedido totalmente personalizado.
+            </p>
+
+            <div class="button-row">
+              <a class="button button--primary" href="#portfolio">Ver portf&oacute;lio</a>
+              <a
+                class="button button--secondary"
+                href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20solicitar%20uma%20pe%C3%A7a%20personalizada%20na%20Miu%20Lab%203D."
+                target="_blank"
+                rel="noreferrer"
+              >
+                Pedir personaliza&ccedil;&atilde;o
+              </a>
+              <a
+                class="button button--light"
+                href="https://www.instagram.com/miulab3d/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Ver Instagram
+              </a>
+            </div>
+
+            <div class="hero-metrics">
+              <div class="metric">
+                <strong id="heroPortfolioCount">0</strong>
+                <span>projetos em destaque</span>
+              </div>
+              <div class="metric">
+                <strong>24h-48h</strong>
+                <span>para an&aacute;lise inicial de personaliza&ccedil;&otilde;es</span>
+              </div>
+              <div class="metric">
+                <strong>Brasil</strong>
+                <span>envio nacional com atendimento online</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="value-strip" aria-label="Diferenciais da Miu Lab 3D">
+        <div class="interface">
+          <div class="value-grid">
+            <article class="value-card">
+              <i class="bi bi-images"></i>
+              <h2>Projetos reais como refer&ecirc;ncia</h2>
+              <p>Uma vitrine com pe&ccedil;as j&aacute; produzidas para mostrar estilo, acabamento e possibilidades reais.</p>
+            </article>
+
+            <article class="value-card">
+              <i class="bi bi-stars"></i>
+              <h2>Personaliza&ccedil;&atilde;o de verdade</h2>
+              <p>Cor, tamanho, tema, encaixe e uso final ajustados para o seu pedido fazer sentido do come&ccedil;o ao fim.</p>
+            </article>
+
+            <article class="value-card">
+              <i class="bi bi-chat-dots"></i>
+              <h2>Contato f&aacute;cil em um clique</h2>
+              <p>WhatsApp, Instagram e e-mail sempre por perto para conversar r&aacute;pido, alinhar detalhes e aprovar ideias.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-section" id="sobre">
+        <div class="interface">
+          <div class="about-layout">
+            <div class="section-heading about-heading">
+              <p class="section-kicker">Sobre a Miu Lab 3D</p>
+              <h2>Uma marca criada para transformar refer&ecirc;ncias em pe&ccedil;as com identidade, presen&ccedil;a e uso real.</h2>
+              <p>
+                A Miu Lab 3D trabalha com impress&atilde;o 3D personalizada e sob medida, seja a partir de uma
+                ideia nova, de uma refer&ecirc;ncia enviada por voc&ecirc; ou de uma adapta&ccedil;&atilde;o pensada
+                para o uso real da pe&ccedil;a.
+              </p>
+            </div>
+
+            <aside class="about-note">
+              <p class="section-kicker">Hoje</p>
+              <strong>Atendimento online, processo direto e envio para todo o Brasil.</strong>
+              <p>O contato acontece pelos canais digitais, com alinhamento claro desde a ideia at&eacute; a entrega.</p>
+              <a
+                class="button button--outline"
+                href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20conversar%20sobre%20uma%20ideia%20para%20a%20Miu%20Lab%203D."
+                target="_blank"
+                rel="noreferrer"
+              >
+                Contar minha ideia
+              </a>
+            </aside>
+          </div>
+
+          <div class="about-grid">
+            <article class="about-card">
+              <p class="about-card-label">Como nasceu</p>
+              <h3>Nasceu da vontade de tirar ideias da tela e transformar refer&ecirc;ncias em algo real.</h3>
+              <p>
+                A proposta sempre foi criar pe&ccedil;as que fossem al&eacute;m do gen&eacute;rico, com leitura visual forte,
+                cuidado no acabamento e resultado que realmente desse gosto de ter por perto.
+              </p>
+            </article>
+
+            <article class="about-card">
+              <p class="about-card-label">Onde estamos</p>
+              <h3>Estamos no atendimento online, com processo simples e envios para todo o Brasil.</h3>
+              <p>
+                A Miu Lab 3D funciona de forma digital e direta: voc&ecirc; envia a refer&ecirc;ncia, alinha detalhes,
+                aprova o pedido e acompanha tudo com praticidade.
+              </p>
+            </article>
+
+            <article class="about-card">
+              <p class="about-card-label">Por que existimos</p>
+              <h3>Para criar pe&ccedil;as com personalidade, utilidade e um visual que vale a pena mostrar.</h3>
+              <p>
+                A marca existe para dar forma a ideias que merecem mais cuidado, seja em uma pe&ccedil;a decorativa,
+                em um suporte funcional, em uma adapta&ccedil;&atilde;o de refer&ecirc;ncia ou em um projeto totalmente personalizado.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="service-section" id="servicos">
+        <div class="interface">
+          <div class="section-heading">
+            <p class="section-kicker">O que a Miu Lab 3D produz</p>
+            <h2>Da pe&ccedil;a decorativa ao projeto funcional, tudo nasce para ficar bonito, bem resolvido e pronto para usar.</h2>
+            <p>
+              Seu pedido pode come&ccedil;ar por uma refer&ecirc;ncia do portf&oacute;lio, por uma adapta&ccedil;&atilde;o
+              de algo que voc&ecirc; j&aacute; viu ou por uma ideia totalmente nova.
+            </p>
+          </div>
+
+          <div class="service-grid">
+            <article class="service-card">
+              <div class="service-icon">
+                <i class="bi bi-controller"></i>
+              </div>
+              <h3>Personagens e pe&ccedil;as decorativas</h3>
+              <p>
+                Projetos com identidade visual forte para setups, quartos, estantes, presentes
+                criativos e cole&ccedil;&otilde;es.
+              </p>
+            </article>
+
+            <article class="service-card">
+              <div class="service-icon">
+                <i class="bi bi-box-seam"></i>
+              </div>
+              <h3>Organiza&ccedil;&atilde;o e utilidade</h3>
+              <p>
+                Solu&ccedil;&otilde;es pensadas para o dia a dia, com foco em praticidade, encaixe,
+                acabamento e boa presen&ccedil;a visual.
+              </p>
+            </article>
+
+            <article class="service-card">
+              <div class="service-icon">
+                <i class="bi bi-pencil-square"></i>
+              </div>
+              <h3>Projetos sob medida</h3>
+              <p>
+                Refer&ecirc;ncias, ideias, fotos ou arquivos 3D viram uma pe&ccedil;a feita para o seu
+                espa&ccedil;o, sua necessidade e seu estilo.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="portfolio-section" id="portfolio">
+        <div class="interface">
+          <div class="section-heading section-heading--row">
+            <div>
+              <p class="section-kicker">Portf&oacute;lio</p>
+              <h2>Alguns projetos j&aacute; produzidos pela Miu Lab 3D.</h2>
+            </div>
+            <a
+              class="button button--outline"
+              href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Vi%20o%20portf%C3%B3lio%20da%20Miu%20Lab%203D%20e%20quero%20algo%20parecido."
+              target="_blank"
+              rel="noreferrer"
+            >
+              Quero algo parecido
+            </a>
+          </div>
+
+          <div class="portfolio-shell">
+            <div class="portfolio-toolbar">
+              <div class="filter-group" id="portfolioFilters" aria-label="Filtros do portf&oacute;lio"></div>
+              <p class="portfolio-note">Abra qualquer refer&ecirc;ncia para ver melhor os detalhes e o acabamento.</p>
+            </div>
+
+            <div class="portfolio-summary">
+              <p id="portfolioSummary">Carregando projetos...</p>
+              <p class="portfolio-note-soft">
+                Exemplos reais para servir como inspira&ccedil;&atilde;o de estilo, acabamento e possibilidades.
+              </p>
+            </div>
+
+            <div class="portfolio-grid" id="portfolioGrid" aria-live="polite"></div>
+          </div>
+
+          <div class="video-showcase">
+            <div class="video-frame">
+              <video id="featuredVideo" controls preload="metadata" playsinline></video>
+            </div>
+
+            <div class="video-copy">
+              <p class="section-kicker">V&iacute;deo</p>
+              <h3 id="featuredVideoTitle">Veja a pe&ccedil;a em movimento</h3>
+              <p id="featuredVideoDescription">
+                No v&iacute;deo, fica mais f&aacute;cil perceber volume, luz e presen&ccedil;a da pe&ccedil;a pronta.
+              </p>
+              <div class="button-row">
+                <a
+                  class="button button--primary"
+                  id="featuredVideoCta"
+                  href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20um%20projeto%20parecido%20com%20o%20que%20vi%20no%20v%C3%ADdeo."
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Quero algo nesse estilo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="custom-section" id="personalizacao">
+        <div class="interface">
+          <div class="custom-layout">
+            <div class="custom-media">
+              <img src="images/portifolio.png" alt="Pe&ccedil;as personalizadas produzidas pela Miu Lab 3D">
+            </div>
+
+            <div class="custom-copy">
+              <p class="section-kicker">Personaliza&ccedil;&atilde;o</p>
+              <h2>Sua ideia vira uma pe&ccedil;a sob medida, com acabamento bonito e pronta para o uso real.</h2>
+              <p>
+                Envie uma foto, um rascunho, uma refer&ecirc;ncia ou um arquivo 3D. A Miu Lab 3D ajusta
+                material, cor, medidas e acabamento para que a pe&ccedil;a funcione bem no dia a dia e
+                fique do jeito que voc&ecirc; imaginou.
+              </p>
+
+              <ul class="feature-list">
+                <li>
+                  <i class="bi bi-check2-circle"></i>
+                  <span>An&aacute;lise de medidas, encaixe e resist&ecirc;ncia antes de produzir.</span>
+                </li>
+                <li>
+                  <i class="bi bi-check2-circle"></i>
+                  <span>Orienta&ccedil;&atilde;o de material e acabamento para equilibrar visual, durabilidade e custo.</span>
+                </li>
+                <li>
+                  <i class="bi bi-check2-circle"></i>
+                  <span>Alinhamento direto dos detalhes para voc&ecirc; aprovar com clareza e seguran&ccedil;a.</span>
+                </li>
+              </ul>
+
+              <div class="button-row">
+                <a
+                  class="button button--primary"
+                  href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20enviar%20uma%20ideia%20para%20personalizacao%20na%20Miu%20Lab%203D."
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Quero personalizar uma pe&ccedil;a
+                </a>
+                <a
+                  class="button button--outline"
+                  href="mailto:miulab3dim@gmail.com?subject=Projeto%20personalizado%20-%20Miu%20Lab%203D"
+                >
+                  Enviar refer&ecirc;ncias por e-mail
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="process-section" id="como-funciona">
+        <div class="interface">
+          <div class="section-heading section-heading--centered">
+            <p class="section-kicker">Como funciona</p>
+            <h2>Um processo simples para quem quer pedir com agilidade e sem ficar perdido.</h2>
+          </div>
+
+          <div class="process-grid">
+            <article class="process-card">
+              <span class="step-number">1</span>
+              <h3>Escolha uma refer&ecirc;ncia</h3>
+              <p>Use um projeto do portf&oacute;lio como ponto de partida ou envie sua ideia do zero.</p>
+            </article>
+
+            <article class="process-card">
+              <span class="step-number">2</span>
+              <h3>Alinhe detalhes e or&ccedil;amento</h3>
+              <p>Cor, tamanho, material, prazo e entrega s&atilde;o definidos de forma clara antes da produ&ccedil;&atilde;o.</p>
+            </article>
+
+            <article class="process-card">
+              <span class="step-number">3</span>
+              <h3>Produ&ccedil;&atilde;o com acabamento</h3>
+              <p>A impress&atilde;o come&ccedil;a ap&oacute;s a aprova&ccedil;&atilde;o, com cuidado no encaixe, na resist&ecirc;ncia e no visual final.</p>
+            </article>
+
+            <article class="process-card">
+              <span class="step-number">4</span>
+              <h3>Receba do seu jeito</h3>
+              <p>Seu pedido segue com envio combinado de forma simples, com atendimento online do in&iacute;cio ao fim.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="details-section" id="entrega-pagamento">
+        <div class="interface">
+          <div class="details-top">
+            <div class="section-heading details-heading">
+              <p class="section-kicker">Pagamento e envio</p>
+              <h2>Tudo alinhado com clareza para voc&ecirc; pedir com seguran&ccedil;a.</h2>
+              <p>Sem loja f&iacute;sica, sem ru&iacute;do e sem etapa confusa: o atendimento &eacute; online, direto e objetivo.</p>
+            </div>
+
+            <aside class="details-side-note">
+              <p class="section-kicker">Pedido sem atrito</p>
+              <ul class="details-side-list">
+                <li>
+                  <strong>Pix e cart&atilde;o</strong>
+                  <span>Uma aprova&ccedil;&atilde;o simples para o pedido seguir sem demora.</span>
+                </li>
+                <li>
+                  <strong>Atendimento online</strong>
+                  <span>Prazo, frete e personaliza&ccedil;&atilde;o alinhados direto no WhatsApp.</span>
+                </li>
+                <li>
+                  <strong>Envio para todo o Brasil</strong>
+                  <span>Frete combinado com clareza conforme CEP, volume e tipo de pe&ccedil;a.</span>
+                </li>
+              </ul>
+            </aside>
+          </div>
+
+          <div class="details-grid">
+            <article class="detail-card">
+              <div class="detail-card-top">
+                <span class="detail-icon"><i class="bi bi-credit-card-2-front"></i></span>
+                <p class="section-kicker">Pagamento</p>
+              </div>
+              <h3>Pagamento simples e direto.</h3>
+              <p class="detail-lead">Voc&ecirc; escolhe a forma mais pr&aacute;tica para aprovar o pedido sem complicar o processo.</p>
+              <div class="detail-chip-row" aria-label="Formas de pagamento">
+                <span class="detail-chip">Pix</span>
+                <span class="detail-chip">Cr&eacute;dito</span>
+                <span class="detail-chip">D&eacute;bito</span>
+              </div>
+              <ul class="detail-list">
+                <li>Pix com aprova&ccedil;&atilde;o imediata para agilizar o in&iacute;cio da produ&ccedil;&atilde;o.</li>
+                <li>Cart&atilde;o de cr&eacute;dito ou d&eacute;bito para facilitar pedidos maiores.</li>
+                <li>Confirma&ccedil;&atilde;o e alinhamento direto pelo WhatsApp.</li>
+              </ul>
+              <p class="detail-note">Tudo fica combinado antes da produ&ccedil;&atilde;o come&ccedil;ar.</p>
+            </article>
+
+            <article class="detail-card detail-card--alt">
+              <div class="detail-card-top">
+                <span class="detail-icon"><i class="bi bi-box-seam"></i></span>
+                <p class="section-kicker">Envio</p>
+              </div>
+              <h3>Envio nacional com acompanhamento.</h3>
+              <p class="detail-lead">Tudo &eacute; combinado online, com orienta&ccedil;&atilde;o clara sobre frete, prazo e despacho.</p>
+              <div class="detail-chip-row" aria-label="Informacoes de envio">
+                <span class="detail-chip">Correios</span>
+                <span class="detail-chip">Atendimento online</span>
+                <span class="detail-chip">Prazo alinhado</span>
+              </div>
+              <ul class="detail-list">
+                <li>Correios para todo o Brasil, com frete calculado conforme CEP e dimens&otilde;es.</li>
+                <li>Atendimento totalmente online para alinhar prazo e envio do pedido.</li>
+                <li>Orienta&ccedil;&atilde;o clara sobre embalagem, frete e previs&atilde;o de entrega.</li>
+              </ul>
+              <p class="detail-note">Voc&ecirc; sabe o que esperar antes do pedido sair para envio.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contato">
+        <div class="interface">
+          <div class="contact-top">
+            <div class="section-heading contact-heading">
+              <p class="section-kicker">Contato</p>
+              <h2>Fale com a Miu Lab 3D e receba resposta sem complica&ccedil;&atilde;o.</h2>
+              <p>WhatsApp para or&ccedil;amento r&aacute;pido, Instagram para refer&ecirc;ncias e e-mail para arquivos mais completos.</p>
+            </div>
+
+            <aside class="contact-side-note">
+              <p class="section-kicker">Canal principal</p>
+              <strong>WhatsApp para or&ccedil;amento, prazo e personaliza&ccedil;&atilde;o com resposta mais r&aacute;pida.</strong>
+              <ul class="contact-side-list">
+                <li>Medidas, acabamento e envio alinhados no mesmo lugar.</li>
+                <li>Mais praticidade para aprovar o pedido sem conversa picada.</li>
+              </ul>
+              <div class="contact-side-actions">
+                <a
+                  class="button button--primary"
+                  href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20falar%20com%20a%20Miu%20Lab%203D."
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Chamar agora
+                </a>
+                <a
+                  class="button button--outline"
+                  href="https://www.instagram.com/miulab3d/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Ver Instagram
+                </a>
+              </div>
+            </aside>
+          </div>
+
+          <div class="contact-grid">
+            <a
+              class="contact-card contact-card--highlight"
+              href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20falar%20com%20a%20Miu%20Lab%203D."
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="contact-card-tag">Canal mais r&aacute;pido</span>
+              <span class="contact-card-icon"><i class="bi bi-whatsapp"></i></span>
+              <h3>WhatsApp</h3>
+              <p>Or&ccedil;amentos, personaliza&ccedil;&atilde;o, prazo, frete e d&uacute;vidas resolvidos com mais agilidade.</p>
+              <span class="contact-card-action">+55 (32) 99840-6067</span>
+            </a>
+
+            <a
+              class="contact-card"
+              href="https://www.instagram.com/miulab3d/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="contact-card-tag">Novidades e refer&ecirc;ncias</span>
+              <span class="contact-card-icon"><i class="bi bi-instagram"></i></span>
+              <h3>Instagram</h3>
+              <p>Veja acabamentos, projetos recentes e novas ideias antes de pedir o seu.</p>
+              <span class="contact-card-action">@miulab3d</span>
+            </a>
+
+            <a class="contact-card" href="mailto:miulab3dim@gmail.com">
+              <span class="contact-card-tag">Arquivos e briefing</span>
+              <span class="contact-card-icon"><i class="bi bi-envelope"></i></span>
+              <h3>E-mail</h3>
+              <p>Ideal para enviar refer&ecirc;ncias, arquivos, medidas e informa&ccedil;&otilde;es mais detalhadas.</p>
+              <span class="contact-card-action">miulab3dim@gmail.com</span>
+            </a>
+
+            <a
+              class="contact-card"
+              href="https://br.shp.ee/Bz7mot3"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span class="contact-card-tag">Mais um canal da marca</span>
+              <span class="contact-card-icon"><i class="bi bi-shop"></i></span>
+              <h3>Loja online</h3>
+              <p>Uma op&ccedil;&atilde;o complementar para acompanhar a Miu Lab 3D e explorar mais refer&ecirc;ncias.</p>
+              <span class="contact-card-action">Visitar loja</span>
+            </a>
+          </div>
+
+          <div class="contact-banner">
+            <div class="contact-banner-copy">
+              <span class="contact-banner-icon"><i class="bi bi-send-check"></i></span>
+              <div>
+                <p class="contact-banner-tag">Atendimento digital</p>
+                <strong>Atendimento online e envio nacional</strong>
+                <p>Todo o contato &eacute; feito pelos canais digitais, com envio combinado para o seu pedido.</p>
+              </div>
+            </div>
+            <a
+              class="button button--light"
+              href="https://wa.me/5532998406067?text=Ol%C3%A1%21%20Quero%20falar%20sobre%20envio%20e%20prazo%20com%20a%20Miu%20Lab%203D."
+              target="_blank"
+              rel="noreferrer"
+            >
+              Falar sobre envio
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="interface footer-stack">
+        <div class="footer-main">
+          <div class="footer-brand">
+            <img src="images/logo.png" alt="Logo da Miu Lab 3D">
+            <div>
+              <strong>Miu Lab 3D</strong>
+              <p>Transformando filamento em desejo &#10024;</p>
+            </div>
+          </div>
+
+          <nav class="footer-nav" aria-label="Links do rodap&eacute;">
+            <a href="#portfolio">Portf&oacute;lio</a>
+            <a href="#personalizacao">Personaliza&ccedil;&atilde;o</a>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#contato">Contato</a>
+          </nav>
+        </div>
+
+        <p class="footer-copy">&copy; <span id="currentYear">2026</span> Miu Lab 3D. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox" hidden>
+      <button class="lightbox-backdrop" type="button" data-lightbox-close aria-label="Fechar imagem"></button>
+
+      <div class="lightbox-panel" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+        <button class="lightbox-close" type="button" id="lightboxClose" aria-label="Fechar">
+          <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div class="lightbox-media">
+          <img id="lightboxImage" alt="">
+        </div>
+
+        <div class="lightbox-copy">
+          <p class="section-kicker" id="lightboxCategory">Projeto realizado</p>
+          <h3 id="lightboxTitle">Imagem ampliada</h3>
+          <p id="lightboxDescription"></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
