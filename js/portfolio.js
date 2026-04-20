@@ -9,44 +9,44 @@ window.MIU_PORTFOLIO = {
     {
       id: "banguela",
       title: "Banguela",
-      category: "Personagens",
+      category: "Luminária",
       label: "Destaque",
       image: "images/produtos/banguela.jpeg",
-      imageAlt: "Peca do personagem Banguela produzida em impressao 3D",
+      imageAlt: "Peça do personagem Banguela produzida em impressão 3D",
       description:
-        "Peca decorativa com presenca forte e acabamento que valoriza o personagem sem perder a leitura dos detalhes.",
+        "Peça decorativa com presença forte e acabamento que valoriza o personagem sem perder a leitura dos detalhes.",
       details: [
-        "Otima inspiracao para presentes, estantes e setups geek.",
-        "Mostra bom equilibrio entre silhueta marcante e acabamento limpo.",
-        "Serve como base para pedidos inspirados em personagens iconicos."
+        "ótima inspiração para presentes, estantes e setups geek.",
+        "Mostra bom equilíbrio entre silhueta marcante e acabamento limpo.",
+        "Serve como base para pedidos inspirados em personagens icônicos."
       ],
       featured: true
     },
     {
       id: "hunterxhunter",
       title: "Hunter x Hunter",
-      category: "Anime",
+      category: "Luminária",
       label: "Destaque",
       image: "images/produtos/hunterxhunter.jpeg",
-      imageAlt: "Peca inspirada em Hunter x Hunter produzida em impressao 3D",
+      imageAlt: "Peça inspirada em Hunter x Hunter produzida em impressão 3D",
       description:
-        "Referencia de anime transformada em peca de impacto para colecao, presente ou decoracao personalizada.",
+        "Referência de anime transformada em peça de impacto para coleção, presente ou decoração personalizada.",
       details: [
-        "Boa inspiracao para projetos baseados em manga e anime.",
-        "Composicao pensada para destacar contraste e identidade visual.",
-        "Funciona bem como ponto de partida para novas versoes personalizadas."
+        "Boa inspiração para projetos baseados em manga e anime.",
+        "Composição pensada para destacar contraste e identidade visual.",
+        "Funciona bem como ponto de partida para novas versões personalizadas."
       ],
       featured: true
     },
     {
       id: "yoshi",
       title: "Yoshi",
-      category: "Games",
+      category: "Luminária",
       label: "Destaque",
       image: "images/produtos/yoshi.jpeg",
-      imageAlt: "Peca do personagem Yoshi produzida em impressao 3D",
+      imageAlt: "Peça do personagem Yoshi produzida em impressão 3D",
       description:
-        "Uma peca vibrante que mostra como personagens de games podem ganhar volume, cor e presenca fora da tela.",
+        "Uma peça vibrante que mostra como personagens de games podem ganhar volume, cor e presenca fora da tela.",
       details: [
         "Boa referencia para pedidos com visual ludico e marcante.",
         "Fica muito bem em quarto, estante ou setup.",
@@ -57,7 +57,7 @@ window.MIU_PORTFOLIO = {
     {
       id: "jack-skellington",
       title: "Suporte Alexa Jack Skellington",
-      category: "Decoracao Geek",
+      category: "Decoração Geek",
       label: "Grande procura",
       image: "images/produtos/jack.png",
       imageAlt: "Suporte para Alexa inspirado em Jack Skellington",
@@ -73,7 +73,7 @@ window.MIU_PORTFOLIO = {
     {
       id: "mao-caveira",
       title: "Suporte Alexa Mao Caveira",
-      category: "Decoracao Geek",
+      category: "Decoração Geek",
       label: "Grande procura",
       image: "images/produtos/maocaveira.png",
       imageAlt: "Suporte em formato de mao caveira para Alexa",
@@ -89,7 +89,7 @@ window.MIU_PORTFOLIO = {
     {
       id: "suporte-vr",
       title: "Suporte para Headset VR",
-      category: "Organizacao",
+      category: "Organização",
       label: "Grande procura",
       image: "images/produtos/vr.png",
       imageAlt: "Suporte para headset VR e controles produzido em impressao 3D",
@@ -99,6 +99,38 @@ window.MIU_PORTFOLIO = {
         "Boa referencia para organizacao de bancada gamer.",
         "Mostra uma peca funcional com acabamento limpo e estavel.",
         "Pode inspirar novos suportes e bases feitas sob medida."
+      ],
+      featured: false
+    },
+    {
+      id: "topo-de-bolo",
+      title: "Topo de Bolo Personalizado",
+      category: "Decoração de Festas",
+      label: "Personalizado",
+      image: "images/produtos/topobolo.png",
+      imageAlt: "Topo de bolo personalizado com nome, idade e escrita em relevo",
+      description:
+        "Peça feita para decorar a festa com acabamento limpo, boa leitura visual e personalização nos detalhes.",
+      details: [
+        "Ótima referência para topo de bolo com nome, idade e tema da comemoração.",
+        "Combina presença visual com leveza para destacar a mesa principal.",
+        "Pode servir de base para novos pedidos personalizados para aniversários e eventos."
+      ],
+      featured: false
+    },
+    {
+      id: "lembrancinha-batizado",
+      title: "Lembrancinhas Personalizados",
+      category: "Lembrancinhas para Festas",
+      label: "Personalizado",
+      image: "images/produtos/batizado.png",
+      imageAlt: "Lembrancinha personalizada de batizado com anjinha em relevo",
+      description:
+        "Lembrancinha delicada e encantadora, perfeita para batizados, aniversários, casamentos, chá revelação e outras ocasiões especiais.",
+      details: [
+        "Boa inspiração para peças personalizadas com nome, data e tema religioso.",
+        "Mostra um resultado delicado, ideal para lembranças de eventos especiais.",
+        "Pode ser adaptada para outras celebrações com cores, textos e detalhes sob medida."
       ],
       featured: false
     }
