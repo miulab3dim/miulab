@@ -30,19 +30,19 @@ const PLANS = {
 const STYLES = {
   geek: {
     name: "Geek",
-    description: "Referencias pop, setups, personagens e pecas com bastante personalidade."
+    description: "Pecas decorativas e de utilidade com referencias pop, games e muita personalidade."
   },
-  "minimal-decor": {
-    name: "Minimalista & Decor",
-    description: "Formas limpas, detalhes elegantes e pecas que conversam bem com a decoracao."
+  minimalista: {
+    name: "Minimalista",
+    description: "Pecas decorativas e de utilidade com formas limpas, visual leve e acabamento elegante."
   },
-  "modern-functional": {
-    name: "Moderno & Funcional",
-    description: "Itens com cara de design utilitario, organizacao e praticidade no dia a dia."
+  moderno: {
+    name: "Moderno",
+    description: "Pecas decorativas e de utilidade com design contemporaneo, praticidade e boa presenca visual."
   },
   "surpresa-total": {
     name: "Surpresa Total",
-    description: "Curadoria livre para quem quer variar o mood e se surpreender a cada remessa."
+    description: "Pecas decorativas e de utilidade com curadoria livre entre os temas da Miu Box."
   }
 };
 
