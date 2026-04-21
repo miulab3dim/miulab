@@ -9,21 +9,8 @@ const PLANS = {
   lite: buildPlan({
     name: "Miu Box Lite",
     baseMonthlyPrice: 49.9,
-    monthly: "3 itens surpresa",
-    summary: "3 itens surpresa para comecar na Miu Box com uma experiencia criativa e acessivel."
-  }),
-  pro: buildPlan({
-    name: "Miu Box Pro",
-    baseMonthlyPrice: 79.9,
-    monthly: "5 itens + brindes",
-    summary: "5 itens surpresa + brindes para quem quer mais volume e uma assinatura mais marcante."
-  }),
-  ultra: buildPlan({
-    name: "Miu Box Ultra",
-    baseMonthlyPrice: 119.9,
-    monthly: "8 itens + brindes + extras",
-    summary:
-      "8 itens, brindes, algo tematico em meses especiais e presente de aniversario para a experiencia mais completa."
+    monthly: "2 itens surpresa",
+    summary: "2 itens surpresa para comecar na Miu Box com uma experiencia criativa e acessivel."
   })
 };
 
@@ -112,14 +99,18 @@ let lastZipCodeLookup = "";
 let zipCodeLookupSequence = 0;
 let emailJsInitialized = false;
 
+function roundCurrency(value) {
+  return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+}
+
 function formatCurrencyBRL(value) {
-  return "R$ " + Number(value).toFixed(2).replace(".", ",");
+  return "R$ " + roundCurrency(value).toFixed(2).replace(".", ",");
 }
 
 function buildPlan(config) {
-  const annualBoxesTotal = config.baseMonthlyPrice * CHECKOUT_INSTALLMENTS;
-  const checkoutTotal = annualBoxesTotal + ONE_TIME_SHIPPING_FEE;
-  const installmentValue = checkoutTotal / CHECKOUT_INSTALLMENTS;
+  const annualBoxesTotal = roundCurrency(config.baseMonthlyPrice * CHECKOUT_INSTALLMENTS);
+  const checkoutTotal = roundCurrency(annualBoxesTotal + ONE_TIME_SHIPPING_FEE);
+  const installmentValue = roundCurrency(config.baseMonthlyPrice);
 
   return {
     name: config.name,
@@ -134,7 +125,9 @@ function buildPlan(config) {
       CHECKOUT_INSTALLMENTS +
       "x de " +
       formatCurrencyBRL(installmentValue) +
-      " com frete incluso",
+      " + " +
+      FIXED_SHIPPING_PRICE +
+      " de frete",
     monthly: config.monthly,
     summary: config.summary
   };
@@ -420,7 +413,7 @@ function syncStaticInfo() {
 }
 
 function getPlanDetails(planKey) {
-  return PLANS[planKey] || PLANS.pro;
+  return PLANS[planKey] || PLANS.lite;
 }
 
 function getStyleDetails(styleKey) {
@@ -428,7 +421,7 @@ function getStyleDetails(styleKey) {
 }
 
 function updateSubscriptionSummary() {
-  const plan = getPlanDetails(planSelect ? planSelect.value : "pro");
+  const plan = getPlanDetails(planSelect ? planSelect.value : "lite");
   const style = getStyleDetails(styleSelect ? styleSelect.value : "geek");
 
   if (summaryPlanName) {
@@ -663,9 +656,7 @@ function getMercadoPagoConfig() {
 
   return {
     paymentLinks: {
-      lite: getConfigValue(paymentLinks.lite),
-      pro: getConfigValue(paymentLinks.pro),
-      ultra: getConfigValue(paymentLinks.ultra)
+      lite: getConfigValue(paymentLinks.lite)
     }
   };
 }
@@ -684,7 +675,7 @@ function isValidCheckoutUrl(value) {
 }
 
 function getMercadoPagoCheckoutUrl(planKey) {
-  const normalizedPlanKey = typeof planKey === "string" ? planKey.toLowerCase() : "pro";
+  const normalizedPlanKey = typeof planKey === "string" ? planKey.toLowerCase() : "lite";
   const paymentLinks = getMercadoPagoConfig().paymentLinks;
   const checkoutUrl = paymentLinks[normalizedPlanKey];
 
@@ -750,7 +741,7 @@ function buildEmailJsMessage(params) {
   return [
     "NOVO ASSINANTE recebido no site da Miu Box.",
     "",
-    "Proximo passo: entrar em contato para entender os tipos de produtos desejados e seguir com o pagamento por Pix ou cartao em 12x.",
+    "Proximo passo: entrar em contato para entender os tipos de produtos desejados e seguir com o pagamento no cartao em 12x.",
     "",
     "Submission ID: " + params.submissionId,
     "Recebido em: " + params.submittedAt,
@@ -761,9 +752,10 @@ function buildEmailJsMessage(params) {
     "Plano: " + params.planName,
     "Preco do plano: " + params.planPrice,
     "Quantidade / extras: " + params.monthlyCount,
+    "Parcela mensal em 12x: " + params.installmentValue,
+    "Frete: " + params.shippingFee,
     "Total anual estimado: " + params.annualBoxesTotal,
     "Valor total com frete: " + params.checkoutTotal,
-    "Parcela em 12x: " + params.installmentValue,
     "Estilo: " + params.styleName,
     "Descricao do estilo: " + params.styleDescription,
     "CEP: " + params.zipCode,
@@ -779,7 +771,7 @@ function buildEmailJsMessage(params) {
 }
 
 function buildEmailJsTemplateParams() {
-  const plan = getPlanDetails(planSelect ? planSelect.value : "pro");
+  const plan = getPlanDetails(planSelect ? planSelect.value : "lite");
   const style = getStyleDetails(styleSelect ? styleSelect.value : "geek");
   const submittedAt = submittedAtHidden && submittedAtHidden.value ? submittedAtHidden.value : new Date().toISOString();
   const fullName = getTrimmedValue(fullNameInput);
@@ -797,6 +789,7 @@ function buildEmailJsTemplateParams() {
     annualBoxesTotal: formatCurrencyBRL(plan.annualBoxesTotal),
     checkoutTotal: formatCurrencyBRL(plan.checkoutTotal),
     installmentValue: formatCurrencyBRL(plan.installmentValue),
+    shippingFee: FIXED_SHIPPING_PRICE,
     styleName: getTrimmedValue(styleNameHidden) || style.name,
     styleDescription: getTrimmedValue(styleDescriptionHidden) || style.description,
     zipCode: getTrimmedValue(zipCodeInput),
@@ -833,6 +826,7 @@ function buildEmailJsTemplateParams() {
     annual_boxes_total: templateData.annualBoxesTotal,
     checkout_total: templateData.checkoutTotal,
     installment_value: templateData.installmentValue,
+    shipping_fee: templateData.shippingFee,
     style_name: templateData.styleName,
     style_description: templateData.styleDescription,
     zip_code: templateData.zipCode,
@@ -891,7 +885,7 @@ function buildSubmissionAddress() {
 }
 
 function syncSubmissionHiddenFields() {
-  const plan = getPlanDetails(planSelect ? planSelect.value : "pro");
+  const plan = getPlanDetails(planSelect ? planSelect.value : "lite");
   const style = getStyleDetails(styleSelect ? styleSelect.value : "geek");
 
   if (planNameHidden) {
@@ -1105,7 +1099,7 @@ function bindSubscriptionForm() {
       return;
     }
 
-    const selectedPlanKey = planSelect ? planSelect.value : "pro";
+    const selectedPlanKey = planSelect ? planSelect.value : "lite";
     const selectedPlan = getPlanDetails(selectedPlanKey);
     const checkoutUrl = getMercadoPagoCheckoutUrl(selectedPlanKey);
     const config = getEmailJsConfig();

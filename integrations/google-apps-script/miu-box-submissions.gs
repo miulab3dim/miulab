@@ -24,14 +24,6 @@ const MIU_BOX_SETTINGS = {
     lite: {
       title: "Miu Box Lite",
       monthly_box_price: 49.9
-    },
-    pro: {
-      title: "Miu Box Pro",
-      monthly_box_price: 79.9
-    },
-    ultra: {
-      title: "Miu Box Ultra",
-      monthly_box_price: 119.9
     }
   }
 };
@@ -147,7 +139,7 @@ function handleCheckoutFormPost_(e) {
 
   const paymentStatus = "novo_assinante";
   const paymentDetail =
-    "Cadastro enviado por e-mail. A equipe deve entrar em contato para entender os tipos de produtos desejados e dar continuidade ao pagamento por Pix ou cartao em 12x.";
+    "Cadastro enviado por e-mail. A equipe deve entrar em contato para entender os tipos de produtos desejados e dar continuidade ao pagamento no cartao em 12x.";
 
   if (sheet && rowNumber) {
     updateSubmissionPaymentFields_(sheet, rowNumber, {
@@ -166,7 +158,7 @@ function handleCheckoutFormPost_(e) {
     ok: true,
     deliveredByEmail: true,
     message:
-      "Cadastro enviado com sucesso! Nossa equipe vai entrar em contato para entender os produtos que voce gostaria de receber e seguir com o pagamento por Pix ou cartao em 12x."
+      "Cadastro enviado com sucesso! Nossa equipe vai entrar em contato para entender os produtos que voce gostaria de receber e seguir com o pagamento no cartao em 12x."
   });
 }
 
@@ -232,7 +224,7 @@ function handleMercadoPagoWebhook_(e) {
 function normalizePayload_(e) {
   const params = e && e.parameter ? e.parameter : {};
   const submittedAt = valueOrDefault_(params.submittedAt, new Date().toISOString());
-  const planKey = valueOrDefault_(params.planSelect, "pro").toLowerCase();
+  const planKey = valueOrDefault_(params.planSelect, "lite").toLowerCase();
   const pricing = getCheckoutPricingForPlan_(planKey);
 
   return {
@@ -648,7 +640,7 @@ function sendNotificationEmail_(data) {
   const body = [
     "NOVO ASSINANTE recebido no site da Miu Box.",
     "",
-    "Proximo passo: entrar em contato com a pessoa para entender os tipos de produtos desejados e seguir com o pagamento por Pix ou cartao em 12x.",
+    "Proximo passo: entrar em contato com a pessoa para entender os tipos de produtos desejados e seguir com o pagamento no cartao em 12x.",
     "",
     "Submission ID: " + data.submissionId,
     "Nome completo: " + data.fullName,

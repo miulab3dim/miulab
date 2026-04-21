@@ -10,10 +10,8 @@ window.MIU_BOX_CONFIG = Object.assign(
     },
     mercadoPago: {
       paymentLinks: {
-        // Cole aqui o link de pagamento/checkout do Mercado Pago para cada plano.
-        lite: "https://mpago.li/2cUYPw1",
-        pro: "https://mpago.li/1YpjZ3q",
-        ultra: "https://mpago.li/1jVHWyP"
+        // Cole aqui o link de pagamento/checkout do Mercado Pago para o plano Lite.
+        lite: "https://mpago.li/2cUYPw1"
       }
     }
   },

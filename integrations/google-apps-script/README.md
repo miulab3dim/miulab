@@ -14,8 +14,6 @@ Passo a passo:
    - `emailjs.serviceId`
    - `emailjs.templateId`
    - `mercadoPago.paymentLinks.lite`
-   - `mercadoPago.paymentLinks.pro`
-   - `mercadoPago.paymentLinks.ultra`
 5. Ajuste o template do EmailJS para usar as variaveis enviadas pelo site, como:
    - `email_subject`
    - `full_name`
@@ -33,6 +31,6 @@ Observacoes:
 
 - O site agora envia automaticamente pelo SDK oficial do EmailJS no navegador.
 - O assunto do e-mail usa apenas o nome do plano e o design escolhido.
-- Depois do cadastro enviado com sucesso, o site redireciona a pessoa para o link de pagamento do Mercado Pago configurado para o plano selecionado.
+- Depois do cadastro enviado com sucesso, o site redireciona a pessoa para o link de pagamento do Mercado Pago configurado para o plano Lite.
 - A integracao por Google Apps Script permanece nesta pasta apenas como referencia legada.
 - A busca de CEP no site usa ViaCEP: https://viacep.com.br/
