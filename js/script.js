@@ -1,28 +1,30 @@
 const WHATSAPP_NUMBER = "5532998406067";
 const ALL_FILTER_LABEL = "Todos";
 const MOBILE_NAV_BREAKPOINT = 1024;
-const FIXED_SHIPPING_PRICE = "R$ 15,90";
+const CHECKOUT_INSTALLMENTS = 12;
+const ONE_TIME_SHIPPING_FEE = 15.9;
+const FIXED_SHIPPING_PRICE = formatCurrencyBRL(ONE_TIME_SHIPPING_FEE);
 
 const PLANS = {
-  lite: {
+  lite: buildPlan({
     name: "Miu Box Lite",
-    price: "12x de R$ 49,90 + frete fixo de " + FIXED_SHIPPING_PRICE,
+    baseMonthlyPrice: 49.9,
     monthly: "3 itens surpresa",
     summary: "3 itens surpresa para comecar na Miu Box com uma experiencia criativa e acessivel."
-  },
-  pro: {
+  }),
+  pro: buildPlan({
     name: "Miu Box Pro",
-    price: "12x de R$ 79,90 + frete fixo de " + FIXED_SHIPPING_PRICE,
+    baseMonthlyPrice: 79.9,
     monthly: "5 itens + brindes",
     summary: "5 itens surpresa + brindes para quem quer mais volume e uma assinatura mais marcante."
-  },
-  ultra: {
+  }),
+  ultra: buildPlan({
     name: "Miu Box Ultra",
-    price: "12x de R$ 119,90 + frete fixo de " + FIXED_SHIPPING_PRICE,
+    baseMonthlyPrice: 119.9,
     monthly: "8 itens + brindes + extras",
     summary:
       "8 itens, brindes, algo tematico em meses especiais e presente de aniversario para a experiencia mais completa."
-  }
+  })
 };
 
 const STYLES = {
@@ -92,9 +94,7 @@ const notesInput = document.getElementById("notes");
 const planSelect = document.getElementById("planSelect");
 const styleSelect = document.getElementById("styleSelect");
 const formStatus = document.getElementById("formStatus");
-const manualSubmissionFallback = document.getElementById("manualSubmissionFallback");
 const submitButton = document.getElementById("subscriptionSubmit");
-const transportFrame = document.getElementById("subscriptionTransportFrame");
 const summaryPlanName = document.getElementById("summaryPlanName");
 const summaryPlanPrice = document.getElementById("summaryPlanPrice");
 const summaryPlanDescription = document.getElementById("summaryPlanDescription");
@@ -110,50 +110,42 @@ const submittedAtHidden = document.getElementById("submittedAtHidden");
 
 let lastZipCodeLookup = "";
 let zipCodeLookupSequence = 0;
-let awaitingTransportResponse = false;
-let transportTimeoutId = 0;
+let emailJsInitialized = false;
+
+function formatCurrencyBRL(value) {
+  return "R$ " + Number(value).toFixed(2).replace(".", ",");
+}
+
+function buildPlan(config) {
+  const annualBoxesTotal = config.baseMonthlyPrice * CHECKOUT_INSTALLMENTS;
+  const checkoutTotal = annualBoxesTotal + ONE_TIME_SHIPPING_FEE;
+  const installmentValue = checkoutTotal / CHECKOUT_INSTALLMENTS;
+
+  return {
+    name: config.name,
+    baseMonthlyPrice: config.baseMonthlyPrice,
+    annualBoxesTotal: annualBoxesTotal,
+    checkoutTotal: checkoutTotal,
+    installmentValue: installmentValue,
+    price:
+      "Total de " +
+      formatCurrencyBRL(checkoutTotal) +
+      " em " +
+      CHECKOUT_INSTALLMENTS +
+      "x de " +
+      formatCurrencyBRL(installmentValue) +
+      " com frete incluso",
+    monthly: config.monthly,
+    summary: config.summary
+  };
+}
 
 function buildWhatsAppUrl(message) {
   return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
 }
 
-function toggleManualFallback(shouldShow) {
-  if (!manualSubmissionFallback) {
-    return;
-  }
-
-  manualSubmissionFallback.hidden = !shouldShow;
-}
-
 function getTrimmedValue(field) {
   return field && typeof field.value === "string" ? field.value.trim() : "";
-}
-
-function buildFallbackSubmissionMessage() {
-  const lines = [
-    "Ola! O formulario do site nao conseguiu enviar automaticamente, entao estou encaminhando os dados da assinatura por aqui.",
-    "",
-    "Nome completo: " + getTrimmedValue(fullNameInput),
-    "CPF: " + getTrimmedValue(cpfInput),
-    "Data de nascimento: " + getTrimmedValue(birthDateInput),
-    "Email: " + getTrimmedValue(emailInput),
-    "Plano: " + getTrimmedValue(planNameHidden),
-    "Preco do plano: " + getTrimmedValue(planPriceHidden),
-    "Estilo: " + getTrimmedValue(styleNameHidden),
-    "Descricao do estilo: " + getTrimmedValue(styleDescriptionHidden),
-    "Endereco completo: " + getTrimmedValue(fullAddressHidden),
-    "Observacoes: " + (getTrimmedValue(notesInput) || "Nenhuma")
-  ];
-
-  return lines.join("\n");
-}
-
-function syncManualFallbackLink() {
-  if (!manualSubmissionFallback) {
-    return;
-  }
-
-  manualSubmissionFallback.href = buildWhatsAppUrl(buildFallbackSubmissionMessage());
 }
 
 function getSortedPortfolio(items) {
@@ -527,6 +519,79 @@ function formatCpf(value) {
     .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
 }
 
+function formatBirthDate(value) {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+
+  if (digits.length <= 2) {
+    return digits;
+  }
+
+  if (digits.length <= 4) {
+    return digits.slice(0, 2) + "/" + digits.slice(2);
+  }
+
+  return digits.slice(0, 2) + "/" + digits.slice(2, 4) + "/" + digits.slice(4);
+}
+
+function parseBirthDate(value) {
+  const match = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value);
+
+  if (!match) {
+    return null;
+  }
+
+  const day = Number(match[1]);
+  const month = Number(match[2]);
+  const year = Number(match[3]);
+  const date = new Date(year, month - 1, day);
+
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+  ) {
+    return null;
+  }
+
+  return date;
+}
+
+function validateBirthDateInput() {
+  if (!birthDateInput) {
+    return true;
+  }
+
+  const value = birthDateInput.value.trim();
+
+  if (!value) {
+    birthDateInput.setCustomValidity("");
+    return true;
+  }
+
+  if (!/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+    birthDateInput.setCustomValidity("Informe a data no formato dd/mm/aaaa.");
+    return false;
+  }
+
+  const parsedDate = parseBirthDate(value);
+
+  if (!parsedDate) {
+    birthDateInput.setCustomValidity("Informe uma data de nascimento valida.");
+    return false;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (parsedDate > today) {
+    birthDateInput.setCustomValidity("A data de nascimento nao pode estar no futuro.");
+    return false;
+  }
+
+  birthDateInput.setCustomValidity("");
+  return true;
+}
+
 function formatZipCode(value) {
   const digits = value.replace(/\D/g, "").slice(0, 8);
 
@@ -571,16 +636,230 @@ function resetFormStatus() {
   setFormStatus("", "");
 }
 
-function getSubmissionEndpoint() {
-  return typeof MIU_BOX_CONFIG.formEndpoint === "string" ? MIU_BOX_CONFIG.formEndpoint.trim() : "";
+function getConfigValue(value) {
+  return typeof value === "string" ? value.trim() : "";
 }
 
-function isTransportResponseMessage(event) {
-  if (!transportFrame || !transportFrame.contentWindow || !event || !event.data || typeof event.data !== "object") {
+function getEmailJsConfig() {
+  const config =
+    MIU_BOX_CONFIG && typeof MIU_BOX_CONFIG.emailjs === "object" && MIU_BOX_CONFIG.emailjs
+      ? MIU_BOX_CONFIG.emailjs
+      : {};
+
+  return {
+    publicKey: getConfigValue(config.publicKey),
+    serviceId: getConfigValue(config.serviceId),
+    templateId: getConfigValue(config.templateId)
+  };
+}
+
+function getMercadoPagoConfig() {
+  const config =
+    MIU_BOX_CONFIG && typeof MIU_BOX_CONFIG.mercadoPago === "object" && MIU_BOX_CONFIG.mercadoPago
+      ? MIU_BOX_CONFIG.mercadoPago
+      : {};
+  const paymentLinks =
+    config && typeof config.paymentLinks === "object" && config.paymentLinks ? config.paymentLinks : {};
+
+  return {
+    paymentLinks: {
+      lite: getConfigValue(paymentLinks.lite),
+      pro: getConfigValue(paymentLinks.pro),
+      ultra: getConfigValue(paymentLinks.ultra)
+    }
+  };
+}
+
+function isValidCheckoutUrl(value) {
+  if (!value) {
     return false;
   }
 
-  return event.source === transportFrame.contentWindow && event.data.source === "miu-box-form";
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch (error) {
+    return false;
+  }
+}
+
+function getMercadoPagoCheckoutUrl(planKey) {
+  const normalizedPlanKey = typeof planKey === "string" ? planKey.toLowerCase() : "pro";
+  const paymentLinks = getMercadoPagoConfig().paymentLinks;
+  const checkoutUrl = paymentLinks[normalizedPlanKey];
+
+  return isValidCheckoutUrl(checkoutUrl) ? checkoutUrl : "";
+}
+
+function isEmailJsConfigured() {
+  const config = getEmailJsConfig();
+  return Boolean(config.publicKey && config.serviceId && config.templateId);
+}
+
+function getEmailJsClient() {
+  return typeof window.emailjs === "object" && window.emailjs ? window.emailjs : null;
+}
+
+function ensureEmailJsInitialized() {
+  if (emailJsInitialized) {
+    return true;
+  }
+
+  const emailJs = getEmailJsClient();
+  const config = getEmailJsConfig();
+
+  if (!emailJs || !config.publicKey) {
+    return false;
+  }
+
+  emailjs.init({
+    publicKey: config.publicKey,
+    limitRate: {
+      id: "miu-box-signup",
+      throttle: 1000
+    }
+  });
+
+  emailJsInitialized = true;
+  return true;
+}
+
+function buildSubmissionId() {
+  if (typeof crypto === "object" && crypto && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  return "miu-box-" + Date.now() + "-" + Math.floor(Math.random() * 100000);
+}
+
+function buildEmailJsSubject(planName, styleName) {
+  const parts = [];
+
+  if (planName) {
+    parts.push(planName);
+  }
+
+  if (styleName) {
+    parts.push(styleName);
+  }
+
+  return parts.length ? parts.join(" - ") : "Assinatura Miu Box";
+}
+
+function buildEmailJsMessage(params) {
+  return [
+    "NOVO ASSINANTE recebido no site da Miu Box.",
+    "",
+    "Proximo passo: entrar em contato para entender os tipos de produtos desejados e seguir com o pagamento por Pix ou cartao em 12x.",
+    "",
+    "Submission ID: " + params.submissionId,
+    "Recebido em: " + params.submittedAt,
+    "Nome completo: " + params.fullName,
+    "CPF: " + params.cpf,
+    "Data de nascimento: " + params.birthDate,
+    "Email: " + params.email,
+    "Plano: " + params.planName,
+    "Preco do plano: " + params.planPrice,
+    "Quantidade / extras: " + params.monthlyCount,
+    "Total anual estimado: " + params.annualBoxesTotal,
+    "Valor total com frete: " + params.checkoutTotal,
+    "Parcela em 12x: " + params.installmentValue,
+    "Estilo: " + params.styleName,
+    "Descricao do estilo: " + params.styleDescription,
+    "CEP: " + params.zipCode,
+    "Rua: " + params.street,
+    "Numero: " + params.number,
+    "Complemento: " + params.complement,
+    "Bairro: " + params.district,
+    "Cidade: " + params.city,
+    "Estado: " + params.state,
+    "Endereco completo: " + params.fullAddress,
+    "Observacoes: " + params.notes
+  ].join("\n");
+}
+
+function buildEmailJsTemplateParams() {
+  const plan = getPlanDetails(planSelect ? planSelect.value : "pro");
+  const style = getStyleDetails(styleSelect ? styleSelect.value : "geek");
+  const submittedAt = submittedAtHidden && submittedAtHidden.value ? submittedAtHidden.value : new Date().toISOString();
+  const fullName = getTrimmedValue(fullNameInput);
+  const planName = getTrimmedValue(planNameHidden) || plan.name;
+  const templateData = {
+    submissionId: buildSubmissionId(),
+    submittedAt: submittedAt,
+    fullName: fullName,
+    cpf: getTrimmedValue(cpfInput),
+    birthDate: getTrimmedValue(birthDateInput),
+    email: getTrimmedValue(emailInput),
+    planName: planName,
+    planPrice: getTrimmedValue(planPriceHidden) || plan.price,
+    monthlyCount: plan.monthly,
+    annualBoxesTotal: formatCurrencyBRL(plan.annualBoxesTotal),
+    checkoutTotal: formatCurrencyBRL(plan.checkoutTotal),
+    installmentValue: formatCurrencyBRL(plan.installmentValue),
+    styleName: getTrimmedValue(styleNameHidden) || style.name,
+    styleDescription: getTrimmedValue(styleDescriptionHidden) || style.description,
+    zipCode: getTrimmedValue(zipCodeInput),
+    street: getTrimmedValue(streetInput),
+    number: getTrimmedValue(numberInput),
+    complement: getTrimmedValue(complementInput) || "Nenhum",
+    district: getTrimmedValue(districtInput),
+    city: getTrimmedValue(cityInput),
+    state: getTrimmedValue(stateInput),
+    fullAddress: getTrimmedValue(fullAddressHidden) || buildSubmissionAddress(),
+    notes: getTrimmedValue(notesInput) || "Nenhuma"
+  };
+  const emailSubject = buildEmailJsSubject(templateData.planName, templateData.styleName);
+  const detailedMessage = buildEmailJsMessage(templateData);
+
+  return {
+    email_subject: emailSubject,
+    subject: emailSubject,
+    title: emailSubject,
+    submission_id: templateData.submissionId,
+    submitted_at: templateData.submittedAt,
+    full_name: templateData.fullName,
+    name: templateData.fullName,
+    from_name: templateData.fullName,
+    user_name: templateData.fullName,
+    cpf: templateData.cpf,
+    birth_date: templateData.birthDate,
+    email: templateData.email,
+    from_email: templateData.email,
+    user_email: templateData.email,
+    plan_name: templateData.planName,
+    plan_price: templateData.planPrice,
+    monthly_count: templateData.monthlyCount,
+    annual_boxes_total: templateData.annualBoxesTotal,
+    checkout_total: templateData.checkoutTotal,
+    installment_value: templateData.installmentValue,
+    style_name: templateData.styleName,
+    style_description: templateData.styleDescription,
+    zip_code: templateData.zipCode,
+    street: templateData.street,
+    number: templateData.number,
+    complement: templateData.complement,
+    district: templateData.district,
+    city: templateData.city,
+    state: templateData.state,
+    full_address: templateData.fullAddress,
+    notes: templateData.notes,
+    reply_to: templateData.email,
+    message: detailedMessage,
+    plain_message: detailedMessage
+  };
+}
+
+function extractEmailJsErrorMessage(error) {
+  if (error && typeof error.text === "string" && error.text.trim()) {
+    return error.text.trim();
+  }
+
+  if (error && typeof error.message === "string" && error.message.trim()) {
+    return error.message.trim();
+  }
+
+  return "Nao foi possivel enviar o cadastro agora. Tente novamente em instantes.";
 }
 
 function buildFullAddress() {
@@ -646,7 +925,7 @@ function setSubmittingState(isSubmitting) {
   }
 
   submitButton.disabled = isSubmitting;
-  submitButton.textContent = isSubmitting ? "Enviando cadastro..." : "Enviar cadastro";
+  submitButton.textContent = isSubmitting ? "Salvando cadastro..." : "Salvar cadastro";
 }
 
 function populateAddressFieldsFromZipCode(data) {
@@ -770,54 +1049,6 @@ function resetAddressFieldsStatus() {
   setZipCodeStatus("", "");
 }
 
-function handleTransportFrameLoad() {
-  if (awaitingTransportResponse) {
-    syncManualFallbackLink();
-  }
-}
-
-function handleTransportMessage(event) {
-  if (!awaitingTransportResponse || !isTransportResponseMessage(event)) {
-    return;
-  }
-
-  const payload = event.data || {};
-
-  awaitingTransportResponse = false;
-  window.clearTimeout(transportTimeoutId);
-  setSubmittingState(false);
-
-  if (payload.ok) {
-    toggleManualFallback(false);
-    subscriptionForm.reset();
-    resetAddressFieldsStatus();
-    updateSubscriptionSummary();
-    syncSubmissionHiddenFields();
-    setFormStatus(
-      "Cadastro enviado com sucesso! O pedido foi enviado para a planilha e para o e-mail miulab3dim@gmail.com.",
-      "success"
-    );
-    return;
-  }
-
-  syncManualFallbackLink();
-  toggleManualFallback(true);
-  setFormStatus(
-    typeof payload.message === "string" && payload.message.trim()
-      ? payload.message.trim()
-      : "Nao foi possivel salvar o cadastro na planilha agora. Verifique o Apps Script e tente novamente.",
-    "error"
-  );
-}
-
-function bindTransportFrame() {
-  if (transportFrame) {
-    transportFrame.addEventListener("load", handleTransportFrameLoad);
-  }
-
-  window.addEventListener("message", handleTransportMessage);
-}
-
 function bindSubscriptionForm() {
   if (!subscriptionForm) {
     return;
@@ -826,6 +1057,17 @@ function bindSubscriptionForm() {
   if (cpfInput) {
     cpfInput.addEventListener("input", () => {
       cpfInput.value = formatCpf(cpfInput.value);
+    });
+  }
+
+  if (birthDateInput) {
+    birthDateInput.addEventListener("input", () => {
+      birthDateInput.value = formatBirthDate(birthDateInput.value);
+      validateBirthDateInput();
+    });
+
+    birthDateInput.addEventListener("blur", () => {
+      validateBirthDateInput();
     });
   }
 
@@ -841,63 +1083,63 @@ function bindSubscriptionForm() {
   bindAddressFieldFormatting();
   subscriptionForm.addEventListener("input", resetFormStatus);
   subscriptionForm.addEventListener("change", resetFormStatus);
-  subscriptionForm.addEventListener("input", syncManualFallbackLink);
-  subscriptionForm.addEventListener("change", syncManualFallbackLink);
 
-  subscriptionForm.addEventListener("submit", (event) => {
+  subscriptionForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    validateBirthDateInput();
 
     if (!subscriptionForm.reportValidity()) {
       return;
     }
 
     syncSubmissionHiddenFields();
-    syncManualFallbackLink();
-    const endpoint = getSubmissionEndpoint();
 
-    if (!endpoint) {
-      toggleManualFallback(true);
-      setFormStatus(
-        "O envio automatico ainda nao esta configurado em js/site-config.js. Cole a URL do Web App em formEndpoint ou use o botao abaixo para encaminhar o cadastro pelo WhatsApp.",
-        "error"
-      );
+    if (!isEmailJsConfigured()) {
+      setFormStatus("O EmailJS ainda nao esta configurado nesta pagina. Preencha publicKey, serviceId e templateId.", "error");
       return;
     }
 
-    toggleManualFallback(false);
+    if (!ensureEmailJsInitialized()) {
+      setFormStatus("Nao foi possivel iniciar o EmailJS nesta pagina. Confira a configuracao e tente novamente.", "error");
+      return;
+    }
+
+    const selectedPlanKey = planSelect ? planSelect.value : "pro";
+    const selectedPlan = getPlanDetails(selectedPlanKey);
+    const checkoutUrl = getMercadoPagoCheckoutUrl(selectedPlanKey);
+    const config = getEmailJsConfig();
+    const templateParams = buildEmailJsTemplateParams();
+
     setSubmittingState(true);
-    setFormStatus("Enviando cadastro para a planilha e para o e-mail da equipe...", "loading");
+    setFormStatus("Enviando cadastro para a equipe e preparando o pagamento...", "loading");
 
-    subscriptionForm.action = endpoint;
-    subscriptionForm.method = "POST";
-    subscriptionForm.target = transportFrame ? transportFrame.name : "";
+    try {
+      await emailjs.send(config.serviceId, config.templateId, templateParams);
 
-    awaitingTransportResponse = true;
-    window.clearTimeout(transportTimeoutId);
-    transportTimeoutId = window.setTimeout(() => {
-      if (!awaitingTransportResponse) {
+      setSubmittingState(false);
+      subscriptionForm.reset();
+      resetAddressFieldsStatus();
+      updateSubscriptionSummary();
+      syncSubmissionHiddenFields();
+
+      if (!checkoutUrl) {
+        setFormStatus(
+          "Cadastro enviado com sucesso! O link de pagamento do Mercado Pago para o plano " +
+            selectedPlan.name +
+            " ainda nao esta configurado nesta pagina.",
+          "success"
+        );
         return;
       }
 
-      awaitingTransportResponse = false;
-      setSubmittingState(false);
-      syncManualFallbackLink();
-      toggleManualFallback(true);
-      setFormStatus(
-        "Nao conseguimos confirmar o envio agora. Verifique o endpoint configurado ou use o WhatsApp abaixo para nao perder o cadastro.",
-        "error"
-      );
-    }, 18000);
-
-    try {
-      subscriptionForm.submit();
+      setFormStatus("Cadastro enviado com sucesso! Redirecionando para o pagamento no Mercado Pago...", "success");
+      window.setTimeout(() => {
+        window.location.assign(checkoutUrl);
+      }, 150);
     } catch (error) {
-      awaitingTransportResponse = false;
-      window.clearTimeout(transportTimeoutId);
       setSubmittingState(false);
-      syncManualFallbackLink();
-      toggleManualFallback(true);
-      setFormStatus("Nao foi possivel enviar o cadastro agora. Tente novamente ou use o WhatsApp abaixo.", "error");
+      setFormStatus(extractEmailJsErrorMessage(error), "error");
     }
   });
 }
@@ -912,10 +1154,8 @@ function init() {
   bindMenu();
   bindPlanButtons();
   bindStyleButtons();
-  bindTransportFrame();
   bindSubscriptionForm();
   updateSubscriptionSummary();
-  syncManualFallbackLink();
   syncHeader();
 }
 

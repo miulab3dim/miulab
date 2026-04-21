@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="shortcut icon" type="image/x-icon" href="images/logo.png">
     <script src="./js/site-config.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
     <script src="./js/script.js" defer></script>
     <title>Miu Box | Assinatura mensal de box surpresa em impress&atilde;o 3D</title>
   </head>
@@ -68,7 +69,7 @@
         <div class="interface hero-layout">
           <div class="hero-copy">
             <p class="eyebrow">Assinatura mensal de impress&otilde;es 3D surpresa</p>
-            <h1>Miu Box: uma assinatura mensal para quem ama receber pe&ccedil;as criativas com cara de presente.</h1>
+            <h1>Miu Box: assinatura mensal para quem ama pe&ccedil;as criativas com cara de presente.</h1>
             <p class="hero-text">
               Voc&ecirc; escolhe o plano e o estilo da sua assinatura. Os itens s&atilde;o surpresa,
               variam conforme o plano escolhido e cada pe&ccedil;a &eacute; produzida artesanalmente
@@ -206,7 +207,8 @@
               <ul class="reason-list">
                 <li>Curadoria mensal sem precisar escolher cada pe&ccedil;a separadamente</li>
                 <li>Um box que combina surpresa com a sua est&eacute;tica preferida</li>
-                <li>Parcelamento em 12x com frete fixo de R$ 15,90</li>
+                <li>Condi&ccedil;&otilde;es finais alinhadas com a equipe, com frete de R$ 15,90</li>
+                <li>Descontos em compras de outros produtos e em personaliza&ccedil;&otilde;es na Miu Lab</li>
                 <li>Experi&ecirc;ncia pensada para decorar, presentear e colecionar</li>
               </ul>
             </article>
@@ -234,7 +236,7 @@
                 <span class="reason-card-icon"><i class="bi bi-piggy-bank"></i></span>
                 <h3>Fica mais f&aacute;cil planejar</h3>
                 <p>
-                  Com valor parcelado em 12x e frete fixo, a experi&ecirc;ncia fica previs&iacute;vel para quem quer
+                  Com fechamento total parcelado em 12x e frete de R$ 15,90 somado ao valor final, a experi&ecirc;ncia fica previs&iacute;vel para quem quer
                   manter a assinatura sem surpresas no custo.
                 </p>
               </article>
@@ -245,6 +247,15 @@
                 <p>
                   As pe&ccedil;as entram na rotina de forma funcional ou decorativa, deixando setup, casa e presentes
                   com mais identidade ao longo do ano.
+                </p>
+              </article>
+
+              <article class="reason-card">
+                <span class="reason-card-icon"><i class="bi bi-percent"></i></span>
+                <h3>Assinante tamb&eacute;m ganha vantagem fora da box</h3>
+                <p>
+                  Quem assina ainda pode aproveitar descontos em compras de outros produtos e em personaliza&ccedil;&otilde;es
+                  feitas na Miu Lab, ampliando os benef&iacute;cios da assinatura.
                 </p>
               </article>
             </div>
@@ -276,10 +287,9 @@
               <div class="plan-offer">
                 <p class="plan-offer-label">12x de</p>
                 <div class="plan-price">
-                  <strong>R$ 49,90</strong>
-                  <span>por box</span>
+                  <strong>R$ 51,23</strong>
                 </div>
-                <p class="plan-shipping">+ R$ 15,90 de frete</p>
+                <p class="plan-shipping">com frete incluso</p>
               </div>
               <ul class="plan-list">
                 <li>3 itens surpresa em impress&atilde;o 3D</li>
@@ -305,10 +315,9 @@
               <div class="plan-offer">
                 <p class="plan-offer-label">12x de</p>
                 <div class="plan-price">
-                  <strong>R$ 79,90</strong>
-                  <span>por box</span>
+                  <strong>R$ 81,23</strong>
                 </div>
-                <p class="plan-shipping">+ R$ 15,90 de frete</p>
+                <p class="plan-shipping">com frete incluso</p>
               </div>
               <ul class="plan-list">
                 <li>5 itens surpresa em impress&atilde;o 3D</li>
@@ -334,10 +343,9 @@
               <div class="plan-offer">
                 <p class="plan-offer-label">12x de</p>
                 <div class="plan-price">
-                  <strong>R$ 119,90</strong>
-                  <span>por box</span>
+                  <strong>R$ 121,23</strong>
                 </div>
-                <p class="plan-shipping">+ R$ 15,90 de frete</p>
+                <p class="plan-shipping">com frete incluso</p>
               </div>
               <ul class="plan-list">
                 <li>8 itens surpresa em impress&atilde;o 3D</li>
@@ -485,10 +493,7 @@
         <div class="interface faq-layout">
           <div class="faq-copy">
             <p class="section-kicker">Como funciona nosso box</p>
-            <h2>Tudo o que a pessoa precisa saber antes de assinar a Miu Box.</h2>
-            <p>
-              Essa se&ccedil;&atilde;o explica a din&acirc;mica do box, os planos, a recorr&ecirc;ncia e como funcionam altera&ccedil;&otilde;es ou cancelamentos.
-            </p>
+            <h2>Tudo o que voc&ecirc; precisa saber antes de assinar a Miu Box.</h2>
 
             <article class="faq-side-card">
               <p class="faq-side-kicker">Resumo da assinatura</p>
@@ -534,7 +539,7 @@
                 O envio &eacute; mensal. A primeira box &eacute; enviada at&eacute; o dia 15 do m&ecirc;s seguinte
                 &agrave; contrata&ccedil;&atilde;o do plano, e as demais remessas s&atilde;o enviadas at&eacute; o dia 15
                 dos meses seguintes. Depois da confirma&ccedil;&atilde;o da assinatura, seu box entra no ciclo de
-                produ&ccedil;&atilde;o e despacho, com frete fixo de R$ 15,90 por remessa e previs&atilde;o alinhada
+                produ&ccedil;&atilde;o e despacho, com frete de R$ 15,90 e previs&atilde;o alinhada
                 pelo WhatsApp de acordo com seu cadastro e endere&ccedil;o.
               </p>
             </details>
@@ -571,10 +576,12 @@
         <div class="interface">
           <div class="section-heading section-heading--centered signup-heading">
             <p class="section-kicker">Cadastro para assinatura</p>
-            <h2>Preencha os dados abaixo para enviar sua solicita&ccedil;&atilde;o de assinatura.</h2>
+            <h2>Preencha os dados abaixo para informar seu interesse na assinatura.</h2>
             <p class="section-lead">
-              Esse cadastro inicial coleta as informa&ccedil;&otilde;es necess&aacute;rias para identificar a assinatura,
-              salvar os dados da assinatura, alinhar envio mensal e registrar o anivers&aacute;rio para o benef&iacute;cio do Ultra.
+              Este cadastro inicial serve para registrar seu interesse no plano escolhido. Assim que recebermos seus dados,
+              nossa equipe entra em contato para entender melhor os tipos de produtos que voc&ecirc; gostaria de receber,
+              alinhar os detalhes da box e dar continuidade ao pagamento, que pode ser no Pix, com o valor total,
+              ou no cart&atilde;o parcelado em 12x.
             </p>
           </div>
 
@@ -610,7 +617,16 @@
 
                   <label class="field" for="birthDate">
                     <span>Data de nascimento</span>
-                    <input id="birthDate" name="birthDate" type="date" autocomplete="bday" required>
+                    <input
+                      id="birthDate"
+                      name="birthDate"
+                      type="text"
+                      inputmode="numeric"
+                      maxlength="10"
+                      placeholder="dd/mm/aaaa"
+                      autocomplete="bday"
+                      required
+                    >
                   </label>
 
                   <label class="field" for="email">
@@ -751,38 +767,18 @@
                 </div>
 
                 <button class="button button--primary button--wide" id="subscriptionSubmit" type="submit">
-                  Enviar cadastro
+                  Salvar cadastro
                 </button>
 
                 <p class="form-status" id="formStatus" aria-live="polite"></p>
-                <a
-                  class="button button--outline button--wide signup-fallback"
-                  id="manualSubmissionFallback"
-                  href="#cadastro"
-                  target="_blank"
-                  rel="noreferrer"
-                  hidden
-                >
-                  Continuar pelo WhatsApp
-                </a>
               </form>
-
-              <iframe
-                class="transport-frame"
-                id="subscriptionTransportFrame"
-                name="subscriptionTransportFrame"
-                title="Envio do cadastro"
-                tabindex="-1"
-                aria-hidden="true"
-                hidden
-              ></iframe>
             </article>
 
             <aside class="signup-summary">
               <article class="summary-card">
                 <p class="summary-kicker">Resumo da assinatura</p>
                 <h3 id="summaryPlanName">Miu Box Pro</h3>
-                <p class="summary-price" id="summaryPlanPrice">12x de R$ 79,90 + frete fixo de R$ 15,90</p>
+                <p class="summary-price" id="summaryPlanPrice">Total de R$ 974,70 em 12x de R$ 81,23 com frete incluso</p>
                 <p class="summary-description" id="summaryPlanDescription">
                   5 itens surpresa + brindes para quem quer uma assinatura mensal mais marcante.
                 </p>
@@ -810,7 +806,7 @@
                   </li>
                   <li>
                     <span>Frete</span>
-                    <strong>R$ 15,90 fixo</strong>
+                    <strong>R$ 15,90 no fechamento</strong>
                   </li>
                 </ul>
               </article>
@@ -818,8 +814,9 @@
               <article class="summary-side-card">
                 <p class="summary-kicker">Pr&oacute;ximos passos</p>
                 <ol class="next-steps">
-                  <li>Seu cadastro &eacute; salvo na planilha e enviado para o e-mail da equipe.</li>
-                  <li>Entramos em contato para confirmar pagamento, frete fixo e in&iacute;cio da assinatura.</li>
+                  <li>Seu cadastro &eacute; enviado por e-mail para a equipe.</li>
+                  <li>Nossa equipe entra em contato para entender os tipos de produtos que voc&ecirc; gostaria de receber e alinhar sua box.</li>
+                  <li>Com tudo combinado, o pagamento pode seguir no Pix, com o valor total, ou no cart&atilde;o parcelado em 12x.</li>
                   <li>A primeira remessa &eacute; enviada at&eacute; o dia 15 do m&ecirc;s seguinte &agrave; assinatura, e as pr&oacute;ximas at&eacute; o dia 15 de cada m&ecirc;s.</li>
                 </ol>
 
@@ -852,11 +849,6 @@
                 <p>Transformando filamento em desejo &#10024;</p>
               </div>
             </div>
-
-            <p class="footer-description">
-              Pe&ccedil;as surpresa em impress&atilde;o 3D todos os meses, produzidas artesanalmente
-              para decorar, presentear e deixar a rotina com mais personalidade.
-            </p>
 
             <div class="footer-socials" aria-label="Redes sociais da Miu Lab 3D">
               <a
