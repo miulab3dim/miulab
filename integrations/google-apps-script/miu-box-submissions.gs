@@ -1,5 +1,7 @@
 const MIU_BOX_SETTINGS = {
-  SPREADSHEET_ID: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQb1Gq0aHpugKLIlZ3t4uxh4_Opjsu42VVz4h5quvadmMV-knrgPVavLDkpGArlPlI6bSFmahrb5E7i/pub?output=xlsx"
+  // Use apenas o ID da planilha, sem a URL completa.
+  // Exemplo: 1AbCdEfGhIjKlMnOpQrStUvWxYz1234567890abcdEF
+  SPREADSHEET_ID: "COLE_O_ID_DA_SUA_PLANILHA_AQUI",
   SHEET_NAME: "Assinaturas Miu Box",
   NOTIFICATION_EMAIL: "miulab3dim@gmail.com"
 };
@@ -58,13 +60,17 @@ function doPost(e) {
 
     sendNotificationEmail_(data);
 
-    return ContentService.createTextOutput(
-      JSON.stringify({ ok: true, message: "Cadastro recebido com sucesso." })
-    ).setMimeType(ContentService.MimeType.JSON);
+    return buildTransportResponse_({
+      source: "miu-box-form",
+      ok: true,
+      message: "Cadastro recebido com sucesso."
+    });
   } catch (error) {
-    return ContentService.createTextOutput(
-      JSON.stringify({ ok: false, message: error.message })
-    ).setMimeType(ContentService.MimeType.JSON);
+    return buildTransportResponse_({
+      source: "miu-box-form",
+      ok: false,
+      message: error && error.message ? error.message : "Nao foi possivel salvar o cadastro."
+    });
   }
 }
 
@@ -162,4 +168,21 @@ function valueOrDefault_(value, fallback) {
   }
 
   return fallback || "";
+}
+
+function buildTransportResponse_(payload) {
+  const serializedPayload = JSON.stringify(payload).replace(/</g, "\\u003c");
+  const html = [
+    "<!DOCTYPE html>",
+    "<html>",
+    "<head><meta charset=\"UTF-8\"></head>",
+    "<body>",
+    "<script>",
+    "window.top.postMessage(" + serializedPayload + ", \"*\");",
+    "</script>",
+    "</body>",
+    "</html>"
+  ].join("");
+
+  return HtmlService.createHtmlOutput(html).setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }

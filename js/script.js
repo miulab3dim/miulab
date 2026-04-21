@@ -1,22 +1,24 @@
 const WHATSAPP_NUMBER = "5532998406067";
 const ALL_FILTER_LABEL = "Todos";
+const MOBILE_NAV_BREAKPOINT = 1024;
+const FIXED_SHIPPING_PRICE = "R$ 15,90";
 
 const PLANS = {
   lite: {
     name: "Miu Box Lite",
-    price: "R$ 49,90 / mes",
+    price: "12x de R$ 49,90 + frete fixo de " + FIXED_SHIPPING_PRICE,
     monthly: "3 itens surpresa",
     summary: "3 itens surpresa para comecar na Miu Box com uma experiencia criativa e acessivel."
   },
   pro: {
     name: "Miu Box Pro",
-    price: "R$ 79,90 / mes",
+    price: "12x de R$ 79,90 + frete fixo de " + FIXED_SHIPPING_PRICE,
     monthly: "5 itens + brindes",
     summary: "5 itens surpresa + brindes para quem quer mais volume e uma assinatura mais marcante."
   },
   ultra: {
     name: "Miu Box Ultra",
-    price: "R$ 119,90 / mes",
+    price: "12x de R$ 119,90 + frete fixo de " + FIXED_SHIPPING_PRICE,
     monthly: "8 itens + brindes + extras",
     summary:
       "8 itens, brindes, algo tematico em meses especiais e presente de aniversario para a experiencia mais completa."
@@ -90,6 +92,7 @@ const notesInput = document.getElementById("notes");
 const planSelect = document.getElementById("planSelect");
 const styleSelect = document.getElementById("styleSelect");
 const formStatus = document.getElementById("formStatus");
+const manualSubmissionFallback = document.getElementById("manualSubmissionFallback");
 const submitButton = document.getElementById("subscriptionSubmit");
 const transportFrame = document.getElementById("subscriptionTransportFrame");
 const summaryPlanName = document.getElementById("summaryPlanName");
@@ -112,6 +115,45 @@ let transportTimeoutId = 0;
 
 function buildWhatsAppUrl(message) {
   return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+}
+
+function toggleManualFallback(shouldShow) {
+  if (!manualSubmissionFallback) {
+    return;
+  }
+
+  manualSubmissionFallback.hidden = !shouldShow;
+}
+
+function getTrimmedValue(field) {
+  return field && typeof field.value === "string" ? field.value.trim() : "";
+}
+
+function buildFallbackSubmissionMessage() {
+  const lines = [
+    "Ola! O formulario do site nao conseguiu enviar automaticamente, entao estou encaminhando os dados da assinatura por aqui.",
+    "",
+    "Nome completo: " + getTrimmedValue(fullNameInput),
+    "CPF: " + getTrimmedValue(cpfInput),
+    "Data de nascimento: " + getTrimmedValue(birthDateInput),
+    "Email: " + getTrimmedValue(emailInput),
+    "Plano: " + getTrimmedValue(planNameHidden),
+    "Preco do plano: " + getTrimmedValue(planPriceHidden),
+    "Estilo: " + getTrimmedValue(styleNameHidden),
+    "Descricao do estilo: " + getTrimmedValue(styleDescriptionHidden),
+    "Endereco completo: " + getTrimmedValue(fullAddressHidden),
+    "Observacoes: " + (getTrimmedValue(notesInput) || "Nenhuma")
+  ];
+
+  return lines.join("\n");
+}
+
+function syncManualFallbackLink() {
+  if (!manualSubmissionFallback) {
+    return;
+  }
+
+  manualSubmissionFallback.href = buildWhatsAppUrl(buildFallbackSubmissionMessage());
 }
 
 function getSortedPortfolio(items) {
@@ -372,7 +414,7 @@ function bindMenu() {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 860) {
+    if (window.innerWidth > MOBILE_NAV_BREAKPOINT) {
       siteNav.classList.remove("is-open");
       menuToggle.setAttribute("aria-expanded", "false");
     }
@@ -531,6 +573,14 @@ function resetFormStatus() {
 
 function getSubmissionEndpoint() {
   return typeof MIU_BOX_CONFIG.formEndpoint === "string" ? MIU_BOX_CONFIG.formEndpoint.trim() : "";
+}
+
+function isTransportResponseMessage(event) {
+  if (!transportFrame || !transportFrame.contentWindow || !event || !event.data || typeof event.data !== "object") {
+    return false;
+  }
+
+  return event.source === transportFrame.contentWindow && event.data.source === "miu-box-form";
 }
 
 function buildFullAddress() {
@@ -721,29 +771,51 @@ function resetAddressFieldsStatus() {
 }
 
 function handleTransportFrameLoad() {
-  if (!awaitingTransportResponse) {
+  if (awaitingTransportResponse) {
+    syncManualFallbackLink();
+  }
+}
+
+function handleTransportMessage(event) {
+  if (!awaitingTransportResponse || !isTransportResponseMessage(event)) {
     return;
   }
+
+  const payload = event.data || {};
 
   awaitingTransportResponse = false;
   window.clearTimeout(transportTimeoutId);
   setSubmittingState(false);
-  subscriptionForm.reset();
-  resetAddressFieldsStatus();
-  updateSubscriptionSummary();
-  syncSubmissionHiddenFields();
+
+  if (payload.ok) {
+    toggleManualFallback(false);
+    subscriptionForm.reset();
+    resetAddressFieldsStatus();
+    updateSubscriptionSummary();
+    syncSubmissionHiddenFields();
+    setFormStatus(
+      "Cadastro enviado com sucesso! O pedido foi enviado para a planilha e para o e-mail miulab3dim@gmail.com.",
+      "success"
+    );
+    return;
+  }
+
+  syncManualFallbackLink();
+  toggleManualFallback(true);
   setFormStatus(
-    "Cadastro enviado com sucesso! O pedido foi enviado para a planilha e para o e-mail miulab3dim@gmail.com.",
-    "success"
+    typeof payload.message === "string" && payload.message.trim()
+      ? payload.message.trim()
+      : "Nao foi possivel salvar o cadastro na planilha agora. Verifique o Apps Script e tente novamente.",
+    "error"
   );
 }
 
 function bindTransportFrame() {
-  if (!transportFrame) {
-    return;
+  if (transportFrame) {
+    transportFrame.addEventListener("load", handleTransportFrameLoad);
   }
 
-  transportFrame.addEventListener("load", handleTransportFrameLoad);
+  window.addEventListener("message", handleTransportMessage);
 }
 
 function bindSubscriptionForm() {
@@ -769,6 +841,8 @@ function bindSubscriptionForm() {
   bindAddressFieldFormatting();
   subscriptionForm.addEventListener("input", resetFormStatus);
   subscriptionForm.addEventListener("change", resetFormStatus);
+  subscriptionForm.addEventListener("input", syncManualFallbackLink);
+  subscriptionForm.addEventListener("change", syncManualFallbackLink);
 
   subscriptionForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -777,17 +851,20 @@ function bindSubscriptionForm() {
       return;
     }
 
+    syncSubmissionHiddenFields();
+    syncManualFallbackLink();
     const endpoint = getSubmissionEndpoint();
 
     if (!endpoint) {
+      toggleManualFallback(true);
       setFormStatus(
-        "Configure o endpoint em js/site-config.js para salvar os dados no Google Sheets e enviar por e-mail.",
+        "O envio automatico ainda nao esta configurado em js/site-config.js. Cole a URL do Web App em formEndpoint ou use o botao abaixo para encaminhar o cadastro pelo WhatsApp.",
         "error"
       );
       return;
     }
 
-    syncSubmissionHiddenFields();
+    toggleManualFallback(false);
     setSubmittingState(true);
     setFormStatus("Enviando cadastro para a planilha e para o e-mail da equipe...", "loading");
 
@@ -804,8 +881,10 @@ function bindSubscriptionForm() {
 
       awaitingTransportResponse = false;
       setSubmittingState(false);
+      syncManualFallbackLink();
+      toggleManualFallback(true);
       setFormStatus(
-        "Nao conseguimos confirmar o envio agora. Verifique o endpoint configurado e tente novamente.",
+        "Nao conseguimos confirmar o envio agora. Verifique o endpoint configurado ou use o WhatsApp abaixo para nao perder o cadastro.",
         "error"
       );
     }, 18000);
@@ -816,7 +895,9 @@ function bindSubscriptionForm() {
       awaitingTransportResponse = false;
       window.clearTimeout(transportTimeoutId);
       setSubmittingState(false);
-      setFormStatus("Nao foi possivel enviar o cadastro agora. Tente novamente.", "error");
+      syncManualFallbackLink();
+      toggleManualFallback(true);
+      setFormStatus("Nao foi possivel enviar o cadastro agora. Tente novamente ou use o WhatsApp abaixo.", "error");
     }
   });
 }
@@ -834,6 +915,7 @@ function init() {
   bindTransportFrame();
   bindSubscriptionForm();
   updateSubscriptionSummary();
+  syncManualFallbackLink();
   syncHeader();
 }
 
