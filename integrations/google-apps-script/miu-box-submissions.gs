@@ -16,14 +16,14 @@ const MIU_BOX_SETTINGS = {
 
   // Configuracao do fechamento do pagamento.
   CHECKOUT_INSTALLMENTS: 12,
-  FREIGHT_AMOUNT: 15.9,
+  FREIGHT_AMOUNT: 0,
 
   // Valores base usados no calculo:
-  // (valor mensal da box * 12) + frete, com fechamento parcelado em 12x.
+  // valor mensal da box * 12, com frete incluso e fechamento parcelado em 12x.
   MERCADO_PAGO_PLANS: {
     lite: {
       title: "Miu Box Lite",
-      monthly_box_price: 49.9
+      monthly_box_price: 65.8
     }
   }
 };
@@ -40,7 +40,7 @@ const MIU_BOX_HEADERS = [
   "Preco exibido no site",
   "Valor mensal da box",
   "Valor anual das boxes",
-  "Frete no fechamento",
+  "Frete incluso no plano",
   "Valor total do fechamento",
   "Valor da parcela em 12x",
   "Estilo",
@@ -651,8 +651,8 @@ function sendNotificationEmail_(data) {
     "Preco exibido no site: " + data.planPriceLabel,
     "Valor mensal da box: R$ " + stringifyMoneyValue_(data.monthlyBoxPrice),
     "Valor anual das boxes: R$ " + stringifyMoneyValue_(data.annualBoxesAmount),
-    "Frete no fechamento: R$ " + stringifyMoneyValue_(data.freightAmount),
-    "Valor total do fechamento: R$ " + stringifyMoneyValue_(data.checkoutTotalAmount),
+    "Frete: incluso",
+    "Valor total do fechamento com frete incluso: R$ " + stringifyMoneyValue_(data.checkoutTotalAmount),
     "Valor da parcela em 12x: R$ " + stringifyMoneyValue_(data.installmentAmount),
     "Estilo: " + data.styleName,
     "Descricao do estilo: " + data.styleDescription,

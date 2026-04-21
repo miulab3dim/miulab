@@ -2,15 +2,16 @@ const WHATSAPP_NUMBER = "5532998406067";
 const ALL_FILTER_LABEL = "Todos";
 const MOBILE_NAV_BREAKPOINT = 1024;
 const CHECKOUT_INSTALLMENTS = 12;
-const ONE_TIME_SHIPPING_FEE = 15.9;
-const FIXED_SHIPPING_PRICE = formatCurrencyBRL(ONE_TIME_SHIPPING_FEE);
+const ONE_TIME_SHIPPING_FEE = 0;
+const SHIPPING_INCLUDED_LABEL = "Frete incluso";
 
 const PLANS = {
   lite: buildPlan({
     name: "Miu Box Lite",
-    baseMonthlyPrice: 49.9,
+    baseMonthlyPrice: 65.8,
     monthly: "2 itens surpresa",
-    summary: "2 itens surpresa para comecar na Miu Box com uma experiencia criativa e acessivel."
+    summary: "2 itens surpresa para comecar na Miu Box com uma experiencia criativa e acessivel.",
+    priceText: "Total de R$ 789,6 em 12x de R$ 65,8 com frete incluso"
   })
 };
 
@@ -119,15 +120,15 @@ function buildPlan(config) {
     checkoutTotal: checkoutTotal,
     installmentValue: installmentValue,
     price:
-      "Total de " +
-      formatCurrencyBRL(checkoutTotal) +
-      " em " +
-      CHECKOUT_INSTALLMENTS +
-      "x de " +
-      formatCurrencyBRL(installmentValue) +
-      " + " +
-      FIXED_SHIPPING_PRICE +
-      " de frete",
+      config.priceText ||
+      ("Total de " +
+        formatCurrencyBRL(checkoutTotal) +
+        " em " +
+        CHECKOUT_INSTALLMENTS +
+        "x de " +
+        formatCurrencyBRL(installmentValue) +
+        " com " +
+        SHIPPING_INCLUDED_LABEL.toLowerCase()),
     monthly: config.monthly,
     summary: config.summary
   };
@@ -755,7 +756,7 @@ function buildEmailJsMessage(params) {
     "Parcela mensal em 12x: " + params.installmentValue,
     "Frete: " + params.shippingFee,
     "Total anual estimado: " + params.annualBoxesTotal,
-    "Valor total com frete: " + params.checkoutTotal,
+    "Valor total com frete incluso: " + params.checkoutTotal,
     "Estilo: " + params.styleName,
     "Descricao do estilo: " + params.styleDescription,
     "CEP: " + params.zipCode,
@@ -789,7 +790,7 @@ function buildEmailJsTemplateParams() {
     annualBoxesTotal: formatCurrencyBRL(plan.annualBoxesTotal),
     checkoutTotal: formatCurrencyBRL(plan.checkoutTotal),
     installmentValue: formatCurrencyBRL(plan.installmentValue),
-    shippingFee: FIXED_SHIPPING_PRICE,
+    shippingFee: SHIPPING_INCLUDED_LABEL,
     styleName: getTrimmedValue(styleNameHidden) || style.name,
     styleDescription: getTrimmedValue(styleDescriptionHidden) || style.description,
     zipCode: getTrimmedValue(zipCodeInput),
